@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js';
 import Camera from './Camera';
-import { Dictionary } from 'vue-router/types/router';
+import Dictionary from '../../union/interface/Dictionary';
 import GameData from '../../union/class/GameData';
 
 interface GameRednererOptions {

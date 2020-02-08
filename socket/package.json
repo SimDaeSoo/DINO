@@ -1,0 +1,24 @@
+{
+  "name": "dino_socket_server",
+  "version": "1.0.0",
+  "description": "2D Web Multi-Game DINO's socket server",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node ./src/index.ts"
+  },
+  "keywords": [
+    "Web",
+    "Game",
+    "PIXI",
+    "DINO",
+    "Multi",
+    "socket.io",
+    "typescript"
+  ],
+  "author": "simdaesoo",
+  "license": "ISC",
+  "dependencies": {
+    "ts-node": "^8.6.2",
+    "typescript": "^3.7.5"
+  }
+}

@@ -8,6 +8,9 @@ import axios from 'axios';
 import { RoomManager } from './RoomManager';
 import { Room } from './Room';
 
+interface Error {
+    code: string;
+}
 // 서버 친구들도 Any타입 제거하기 해야함.
 class GameServer {
     private IP: string;
@@ -26,7 +29,7 @@ class GameServer {
 
     public open(port: number): void {
         this.server = this.application.listen(port);
-        this.server.once('error', (err: any) => {
+        this.server.once('error', (err: Error) => {
             if (err.code === 'EADDRINUSE') {
                 port++;
                 this.close();
