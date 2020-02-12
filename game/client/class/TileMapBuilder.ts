@@ -38,7 +38,7 @@ export default class TileMapBuilder {
             }
         }
 
-        setTimeout(() => {
+        setTimeout((): void => {
             tileMap.cacheAsBitmap = true;
         }, 2000)
 

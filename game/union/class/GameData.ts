@@ -12,8 +12,8 @@ export interface IGameData {
 }
 
 export default class GameData extends DataContainer<IGameData> {
-    public objects: Dictionary<BaseObject<BaseObjectData>>;
-    public map: Array<Array<TILE_TYPE>>;
+    public objects!: Dictionary<BaseObject<BaseObjectData>>;
+    public map!: Array<Array<TILE_TYPE>>;
 
     public initialize(data: IGameData): void {
         this.objects = {};

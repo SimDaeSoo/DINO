@@ -11,13 +11,13 @@ export interface MapGeneratorOptions {
 
 // Regacy Code 한번 거둬내자 (Map 이 Dictionary일 필요가 없다.)
 export default class MapGenerator {
-    private seed: string;
-    private mapDictionary: Dictionary<TileData>;
-    private size: Dictionary<number>;
-    private density: number;
-    private currentTileCount: number;
-    private targetPositions: Array<number>;
-    private rng: SeedRandom;
+    private seed!: string;
+    private mapDictionary!: Dictionary<TileData>;
+    private size!: Dictionary<number>;
+    private density!: number;
+    private currentTileCount!: number;
+    private targetPositions!: Array<number>;
+    private rng!: SeedRandom;
 
     // public method
     public initialize(options?: MapGeneratorOptions) {

@@ -13,11 +13,11 @@ interface Layer {
 }
 
 export default class GameRenderer {
-    private app: PIXI.Application;
-    private stage: PIXI.Container;
-    private layers: Dictionary<Layer>;
-    private camera: Camera;
-    private data: GameData;
+    private app!: PIXI.Application;
+    private stage!: PIXI.Container;
+    private layers!: Dictionary<Layer>;
+    private camera!: Camera;
+    private data!: GameData;
 
     public initialize(options: GameRednererOptions): void {
         if (this.app) this.destroy();

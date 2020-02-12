@@ -1,31 +1,11 @@
 import { Room, RoomOptions } from './room';
 import * as socketIO from 'socket.io';
+import Dictionary from '../../union/interface/Dictionary';
 
 export class RoomManager {
-    public userCounting: number = 0;
-    public MAX_USER: number = 100;
-    public userDict: { [id: string]: string } = {};
+    public userDict: Dictionary<string> = {};
     public rooms: Array<Room> = [];
     public roomNumber: number = 0;
-
-    public autoMapping(socket: socketIO.Socket): Room {
-        let room: Room;
-
-        for (let key in this.rooms) {
-            if (this.rooms[key].joinable) {
-                room = this.rooms[key];
-                break;
-            }
-        }
-
-        if (!room) {
-            room = this.createRoom({ name: this.getRoomName() });
-        }
-        this.joinRoom(socket, room.name);
-        this.userCounting++;
-
-        return room;
-    }
 
     public createRoom(options?: RoomOptions): Room {
         const newRoom: Room = new Room(options);
@@ -85,7 +65,6 @@ export class RoomManager {
 
     public disconnect(socket: socketIO.Socket): void {
         this.leaveRoom(socket, this.userDict[socket.id]);
-        this.userCounting--;
     }
 
     public getRoomName(): string {

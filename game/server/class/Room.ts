@@ -1,44 +1,21 @@
 export interface RoomOptions {
-    name: string,
-    members?: Array<string>,
-    isPlaying?: boolean,
-    maxMembers?: number,
+    name: string;
+    maxMembers?: number;
+    password?: string;
 }
 
 export class Room {
-    public name: string;
-    public members: Array<string> = [];
-    public isPlaying: boolean;
-    public maxMembers: number;
-    // public gameLogic: GameLogic;
-    // public gameData: GameData;
-    // public updater: Updater;
+    public members!: Array<string>;
+    public get name(): string { return this.options.name; }
+    public get maxMembers(): number { return this.options.maxMembers; }
+    public get joinable(): boolean { return this.members.length < this.options.maxMembers && !this.isStarted; }
+
+    private options!: RoomOptions;
+    private isStarted!: boolean;
 
     constructor(options?: RoomOptions) {
-        let defaultOptions = Object.assign({
-            name: '',
-            members: [],
-            isPlaying: false,
-            maxMembers: 5
-        }, options);
-
-        for (let key in defaultOptions) {
-            this[key] = defaultOptions[key];
-        }
-
-        // this.updater = new Updater();
-        // this.gameData = new GameData();
-        // this.gameData.createWorldData(154, 12);
-        // this.gameLogic = new GameLogic();
-        // this.gameLogic.gameData = this.gameData;
-
-        // this.updater.onUpdate(async (dt: number): Promise<void> => {
-        //     await this.gameLogic.update(dt);
-        // });
-    }
-
-    public get joinable(): boolean {
-        return this.members.length < this.maxMembers && !this.isPlaying;
+        let defaultOptions: RoomOptions = { name: '', maxMembers: 1, password: '' };
+        this.options = Object.assign(defaultOptions, options);
     }
 
     public join(id: string): void {
@@ -54,6 +31,5 @@ export class Room {
     }
 
     public destroy(): void {
-        // this.updater.stop();
     }
 };

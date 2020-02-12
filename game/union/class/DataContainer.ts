@@ -1,5 +1,5 @@
 export default class DataContainer<T> {
-    public data: T;
+    public data!: T;
 
     public import(data: T): void {
         this.data = data;

@@ -1,11 +1,11 @@
 import Dictionary from "../interface/Dictionary";
 
 export default class Updater {
-    private updateCallback: Dictionary<NodeJS.Timeout>;
+    private updateCallback: Dictionary<NodeJS.Timeout> = {};
 
     public on(name: string, duration: number, callback: Function): void {
         let lastTime: number = Date.now();
-        this.updateCallback[name] = setInterval(async () => {
+        this.updateCallback[name] = setInterval((): void => {
             const dt: number = Date.now() - lastTime;
             callback(dt);
             lastTime += dt;
