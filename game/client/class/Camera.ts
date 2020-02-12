@@ -1,3 +1,4 @@
+import * as PIXI from 'pixi.js';
 import Vector2D from '../../union/interface/Vector2D';
 
 export default class Camera {
