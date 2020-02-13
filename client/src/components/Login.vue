@@ -1,18 +1,20 @@
 <template>
-  <div class="login-form" :class="{'unVisible': unVisible}">
-    <h1>DINO</h1>
-    <div class="form-field">
-      <input
-        type="text"
-        class="form-field"
-        pattern="^[a-zA-Z0-9_-]{1,16}$"
-        placeholder=" "
-        v-model="id"
-        required
-      >
-      <label for="username">Insert Name</label>
+  <div class="login_page">
+    <div class="login-form" :class="{'unVisible': unVisible}">
+      <h1>DINO</h1>
+      <div class="form-field">
+        <input
+          type="text"
+          class="form-field"
+          pattern="^[a-zA-Z0-9_-]{1,16}$"
+          placeholder=" "
+          v-model="id"
+          required
+        >
+        <label for="username">Insert Name</label>
+      </div>
+      <button class="btn" @click="tryLogin">Start</button>
     </div>
-    <button class="btn" @click="login(id)">Start</button>
   </div>
 </template>
 
@@ -24,14 +26,30 @@ export default class Login extends Vue {
   @Prop()
   private unVisible!: boolean;
   @Prop()
-  private login!: Function;
+  private login!: (id: string) => void;
   private id: string = '';
+  private lastDate!: number;
+
+  private tryLogin(): void {
+    if (this.unVisible) { return; }
+    if (!this.lastDate || Date.now() - 1500 > this.lastDate) {
+      this.lastDate = Date.now();
+      this.login(this.id);
+    }
+  }
 }
 </script>
 
 <style scoped>
 @import url(https://fonts.googleapis.com/css?family=Lato);
 
+.login_page {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .login-form.unVisible {
   transition: opacity 1.5s ease-in;
   opacity: 0;

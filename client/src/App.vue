@@ -1,8 +1,12 @@
 <template>
   <div id="app">
-    <div class="game_canvas" v-if="gameStarted"/>
-    <Loader v-if="!gameStarted && isLoading" :unVisible="loaderUnVisible"/>
-    <Login v-if="!gameStarted && loaderUnVisible" :unVisible="isLoading" :login="tryLogin"/>
+    <Loader v-if="visibleState('LOADING')" :unVisible="opacityState('LOADING')"/>
+    <Login v-if="visibleState('LOGIN')" :unVisible="opacityState('LOGIN')" :login="setDisplayName"/>
+    <SelectServer
+      v-if="visibleState('SELECT_SERVER')"
+      :unVisible="opacityState('SELECT_SERVER')"
+      :rooms="rooms"
+    />
     <notifications position="top left" group="notification"/>
   </div>
 </template>
@@ -11,65 +15,91 @@
 import { Component, Vue } from 'vue-property-decorator';
 import Loader from './components/Loader.vue';
 import Login from './components/Login.vue';
-import GameLayer from './components/GameLayer.vue';
+import SelectServer from './components/SelectServer.vue';
 import GameClient from '../../game/client/class/GameClient';
+import { MAIN_STATE } from '../../game/client/interface/MainState';
+import Dictionary from '../../game/union/interface/Dictionary';
+import SocketServerData from '../../game/union/interface/SocketServerData';
+import { RoomData } from '../../game/union/interface/RoomData';
 
 @Component({
-  components: { Loader, Login },
+  components: { Loader, Login, SelectServer },
 })
 export default class App extends Vue {
-  private loaderUnVisible: boolean = false;
-  private isLoading: boolean = true;
-  private gameStarted: boolean = false;
+  private state: Dictionary<MAIN_STATE> = { current: MAIN_STATE.WAIT, next: MAIN_STATE.WAIT };
   private gameClient!: GameClient;
+  private servers: SocketServerData[] = [];
+  private displayName: string = '';
 
   private mounted() {
-    const socketURL: string = 'http://10.33.0.18:1234';
     this.gameClient = new GameClient();
+    this.connectMaster();
+    this.changeState(MAIN_STATE.LOADING);
+  }
+
+  private connectMaster() {
+    const socketURL: string = 'http://10.33.0.18:1234';
     this.gameClient.connect(socketURL, {
-      login: () => { this.gameStarted = true; },
-      connect: this.notifyConnection.bind(this),
-      disconnect: this.notifyDisconnection.bind(this),
+      connect: this.connect.bind(this),
+      disconnect: this.disconnect.bind(this),
+      setServers: this.setServers.bind(this),
     });
+    this.gameClient.setMasterListener();
   }
 
-  private tryLogin(id: string): void {
-    this.gameClient.tryLogin(id);
-  }
-
-  private notifyDisconnection(): void {
-    this.isLoading = true;
-    this.gameStarted = false;
+  private disconnect(): void {
+    this.changeState(MAIN_STATE.LOADING);
     this.$notify({
       group: 'notification', title: 'System Message -', type: 'error',
       text: `Server is disconeccted<br>${new Date().toUTCString()}`,
       duration: 2000,
     });
-    setTimeout(() => { this.loaderUnVisible = false; }, 2000);
   }
 
-  private notifyConnection(): void {
-    this.loaderUnVisible = true;
+  private connect(): void {
+    this.changeState(MAIN_STATE.LOGIN);
     this.$notify({
       group: 'notification', title: 'System Message -', type: 'success',
       text: `Server connection is successed<br>${new Date().toUTCString()}`,
       duration: 2000,
     });
-    setTimeout(() => { this.isLoading = false; }, 2000);
+  }
+
+  private setServers(servers: SocketServerData[]): void {
+    this.servers.splice(0, this.servers.length);
+    servers.forEach((server): void => {
+      this.servers.push(server);
+    });
+  }
+
+  private visibleState(state: MAIN_STATE): boolean {
+    return this.state.current === state || this.state.next === state;
+  }
+
+  private opacityState(state: MAIN_STATE): boolean {
+    return (this.state.current !== state || this.state.next !== state);
+  }
+
+  private changeState(state: MAIN_STATE): void {
+    this.state.next = state;
+    setTimeout(() => { this.state.current = state; }, 2000);
+  }
+
+  private setDisplayName(name: string): void {
+    this.displayName = name;
+    this.changeState(MAIN_STATE.SELECT_SERVER);
+  }
+
+  private get rooms(): RoomData[] {
+    return this.servers.reduce((acc: RoomData[], current: SocketServerData): RoomData[] => {
+      return acc.concat(current.rooms);
+    }, []);
   }
 }
 </script>
 
 <style scoped>
-.game_canvas {
-  width: 100%;
-  height: 100%;
-}
-
 #app {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   width: 100%;
   height: 100%;
   background-image: radial-gradient(

@@ -2,52 +2,59 @@ import * as express from 'express';
 import * as SocketIO from 'socket.io';
 import * as ip from 'public-ip';
 import { Server } from 'http';
-import { RoomManager } from './RoomManager';
-import { Room } from './Room';
-import Dictionary from '../../union/interface/Dictionary';
-// import axios from 'axios';
+import { Error } from '../interface/Server';
+import Updater from '../../union/class/Updater';
+import Network from '../../union/class/Network';
 
-enum STATUS_CODE {
-    WAIT,
-    PLAY
-}
-interface User {
-    socket: SocketIO.Socket;
-    id: string;
-    displayName: string;
-    room?: Room;
-    status: STATUS_CODE;
-}
-interface Error { code: string; }
 class GameServer {
     private IP!: string;
+    private port!: number;
     private server!: Server;
-    private roomManager!: RoomManager;
-    private socketDictionary: Dictionary<User> = {};
+    private updater!: Updater;
 
     public async initialize(): Promise<void> {
         this.IP = await ip.v4();
-        this.roomManager = new RoomManager();
     }
 
     public open(port: number): void {
-        this.server = express().listen(port);
+        this.port = port;
+        this.server = express().listen(this.port);
 
         this.server.once('error', (err: Error): void => {
             if (err.code === 'EADDRINUSE') {
                 this.close();
-                this.open(++port);
+                this.open(++this.port);
             }
         });
 
         this.server.once('listening', (): void => {
-            console.log(`server is running http://${this.IP}:${port}`);
+            console.log(`server is running http://${this.IP}:${this.port}`);
             this.createSocketServer();
         });
     }
 
-    public close(): void {
-        this.server.close();
+    public connectMaster(address: string): void {
+        if (this.updater) this.updater.removeAll();
+        if (!this.updater) this.updater = new Updater();
+
+        this.updater.on('apply', 1000, (): void => {
+            Network.post(`http://${address}/apply`, {
+                address: `http://${this.IP}:${this.port}`,
+                // Rooms 는 Test
+                rooms: [
+                    { name: '1 Room', address: `http://${this.IP}:${this.port}` },
+                    { name: '2 Room', address: `http://${this.IP}:${this.port}` },
+                    { name: '3 Room', address: `http://${this.IP}:${this.port}` },
+                    { name: '4 Room', address: `http://${this.IP}:${this.port}` },
+                    { name: '5 Room', address: `http://${this.IP}:${this.port}` },
+                    { name: '6 Room', address: `http://${this.IP}:${this.port}` },
+                    { name: '7 Room', address: `http://${this.IP}:${this.port}` },
+                    { name: '8 Room', address: `http://${this.IP}:${this.port}` },
+                    { name: '9 Room', address: `http://${this.IP}:${this.port}` },
+                    { name: '10 Room', address: `http://${this.IP}:${this.port}` }
+                ]
+            });
+        });
     }
 
     private createSocketServer(): void {
@@ -61,21 +68,15 @@ class GameServer {
 
     private connection(socket: SocketIO.Socket): void {
         console.log(socket.id, 'connected');
-        this.socketDictionary[socket.id] = { id: socket.id, socket: socket, displayName: socket.id, status: STATUS_CODE.WAIT };
-        socket.on('login', (id: string): void => { this.login(socket, id); });
         socket.on('disconnect', (): void => { this.disconnect(socket); });
     }
 
     private disconnect(socket: SocketIO.Socket): void {
         console.log(socket.id, 'disconnected');
-        delete this.socketDictionary[socket.id];
-        this.roomManager.disconnect(socket);
     }
 
-    private login(socket: SocketIO.Socket, id: string): void {
-        this.socketDictionary[socket.id].displayName = id;
-        socket.emit('login', id);
-        console.log(this.socketDictionary);
+    public close(): void {
+        this.server.close();
     }
 }
 

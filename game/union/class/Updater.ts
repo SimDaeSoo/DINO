@@ -16,4 +16,11 @@ export default class Updater {
         clearInterval(this.updateCallback[name]);
         delete this.updateCallback[name];
     }
+
+    public removeAll(): void {
+        for (let name in this.updateCallback) {
+            clearInterval(this.updateCallback[name]);
+            delete this.updateCallback[name];
+        }
+    }
 }

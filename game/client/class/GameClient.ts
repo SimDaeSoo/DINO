@@ -1,33 +1,34 @@
 import SocketIO from 'socket.io-client';
 import Dictionary from '../../union/interface/Dictionary';
+import SocketServerData from '../../union/interface/SocketServerData';
 
 export default class GameClient {
-    private displayName!: string;
     private socket!: SocketIOClient.Socket;
     private callback: Dictionary<Function> = {};
+    public servers: Array<SocketServerData> = [];
 
-    public connect(url: string, callback?: Dictionary<Function>): SocketIOClient.Socket {
+    public connect(url: string, callback: Dictionary<Function>): SocketIOClient.Socket {
         this.socket = SocketIO(url);
         this.callback = callback;
 
         this.socket.on('connect', this.connected.bind(this));
         this.socket.on('disconnect', this.disconnected.bind(this));
-        this.socket.on('login', this.login.bind(this));
         return this.socket;
     }
 
+    public setMasterListener(): void {
+        this.socket.on('notifyServers', (data: { servers: Array<SocketServerData> }): void => {
+            this.servers = data.servers;
+            if (this.callback.setServers) {
+                this.callback.setServers(this.servers);
+            }
+        });
+    }
+
     public disconnect(): void {
+        this.socket.removeAllListeners();
         this.socket.disconnect();
-    }
-
-    public tryLogin(id: string): void {
-        this.socket.emit('login', id);
-    }
-
-    private login(displayName: string): void {
-        // 성공 시 RoomData 계속 가져온다.
-        this.displayName = displayName;
-        if (this.callback.login) this.callback.login();
+        this.socket.close();
     }
 
     private connected(): void {
