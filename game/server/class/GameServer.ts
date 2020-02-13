@@ -46,7 +46,8 @@ class GameServer {
 
     private createRoom(request: Request, response: Response, next: NextFunction): void {
         const name: string = request.body.name;
-        const newRoom: Room = this.roomManager.createRoom({ name });
+        const id: number = request.body.id;
+        const newRoom: Room = this.roomManager.createRoom({ name, id });
 
         response.json({
             success: true,

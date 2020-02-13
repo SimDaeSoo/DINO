@@ -68,7 +68,7 @@ export default class RoomCard extends Vue {
 .id {
   position: absolute;
   top: -8px;
-  left: -123px;
+  left: -121px;
 }
 .id_string {
   text-align: center;
@@ -79,7 +79,7 @@ export default class RoomCard extends Vue {
   font-size: 1em;
 }
 .flag_icon {
-  width: 40px;
+  width: 50px;
   height: 50px;
 }
 .clock {

@@ -5,12 +5,10 @@ import Dictionary from '../../union/interface/Dictionary';
 export class RoomManager {
     public userDict: Dictionary<string> = {};
     public rooms: Array<Room> = [];
-    public roomNumber: number = 0;
     public io: SocketIO.Server;
 
     public createRoom(options?: RoomOptions): Room {
         const newRoom: Room = new Room(options);
-        newRoom.setID(this.getUniqueRoomIndex());
         newRoom.setIO(this.io);
         this.rooms.push(newRoom);
 
@@ -68,10 +66,5 @@ export class RoomManager {
 
     public disconnect(socket: socketIO.Socket): void {
         this.leaveRoom(socket, this.userDict[socket.id]);
-    }
-
-    public getUniqueRoomIndex(): number {
-        this.roomNumber++;
-        return this.roomNumber;
     }
 }

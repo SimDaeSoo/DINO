@@ -16,6 +16,7 @@ class MasterServer {
     private io!: SocketIO.Server;
     private application!: Express;
     private socketServerDictionary: Dictionary<SocketServerData> = {};
+    private uniqueIndex: number = 0;
 
     public async initialize(): Promise<void> {
         this.IP = await ip.v4();
@@ -85,7 +86,7 @@ class MasterServer {
 
     private async createRoom(socket: SocketIO.Socket, name: string): Promise<void> {
         const lowestServer: SocketServerData = this.getLowestSocketServer();
-        const createResult = await Network.post(`http://${lowestServer.address}/createRoom`, { name });
+        const createResult = await Network.post(`http://${lowestServer.address}/createRoom`, { name, id: this.uniqueIndex++ });
         socket.emit('join', createResult)
     }
 
