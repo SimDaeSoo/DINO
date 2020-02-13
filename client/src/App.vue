@@ -50,6 +50,7 @@ export default class App extends Vue {
       connect: this.connect.bind(this),
       disconnect: this.disconnect.bind(this),
       setServers: this.setServers.bind(this),
+      join: this.join.bind(this),
     });
     this.gameClient.setMasterListener();
   }
@@ -84,7 +85,10 @@ export default class App extends Vue {
     }
     this.gameClient.disconnect();
     this.gameClient.connect(address, {
-      connect: (): void => { this.changeState(MAIN_STATE.SELECTED_SERVER); },
+      connect: (): void => {
+        this.changeState(MAIN_STATE.SELECTED_SERVER);
+        this.gameClient.join(room);
+      },
       disconnect: this.disconnect.bind(this),
     });
   }
@@ -111,6 +115,7 @@ export default class App extends Vue {
 
   private setDisplayName(name: string): void {
     this.displayName = name;
+    this.gameClient.setDisplayName(name);
     this.changeState(MAIN_STATE.SELECT_SERVER);
   }
 

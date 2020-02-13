@@ -5,14 +5,21 @@ import SocketServerData from '../../union/interface/SocketServerData';
 export default class GameClient {
     private socket!: SocketIOClient.Socket;
     private callback: Dictionary<Function> = {};
+    private displayName: string = '';
     public servers: Array<SocketServerData> = [];
+
+    public setDisplayName(displayName: string): void {
+        this.displayName = displayName;
+    }
 
     public connect(url: string, callback: Dictionary<Function>): SocketIOClient.Socket {
         this.socket = SocketIO(url);
         this.callback = callback;
 
         this.socket.on('connect', this.connected.bind(this));
+        this.socket.on('join', this.tryJoin.bind(this));
         this.socket.on('disconnect', this.disconnected.bind(this));
+        this.socket.on('test', (str: string): void => { console.log(str); });
         return this.socket;
     }
 
@@ -33,6 +40,14 @@ export default class GameClient {
 
     public createRoom(roomName: string): void {
         this.socket.emit('createRoom', roomName);
+    }
+
+    public tryJoin(roomData: { address: string, roomName: string }): void {
+        if (this.callback.join) this.callback.join(roomData.address, roomData.roomName);
+    }
+
+    public join(roomName: string): void {
+        this.socket.emit('join', { roomName, displayName: this.displayName });
     }
 
     private connected(): void {

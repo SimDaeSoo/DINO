@@ -6,10 +6,12 @@ export class RoomManager {
     public userDict: Dictionary<string> = {};
     public rooms: Array<Room> = [];
     public roomNumber: number = 0;
+    public io: SocketIO.Server;
 
     public createRoom(options?: RoomOptions): Room {
         const newRoom: Room = new Room(options);
         newRoom.setID(this.getUniqueRoomIndex());
+        newRoom.setIO(this.io);
         this.rooms.push(newRoom);
 
         return newRoom;
@@ -24,14 +26,14 @@ export class RoomManager {
         }
     }
 
-    public joinRoom(socket: socketIO.Socket, roomName: string): boolean {
+    public joinRoom(socket: socketIO.Socket, roomName: string, displayName: string): boolean {
         let result: boolean = false;
 
         for (let key in this.rooms) {
             if (this.rooms[key].name === roomName && this.rooms[key].joinable) {
                 result = true;
                 socket.join(this.rooms[key].name);
-                this.rooms[key].join(socket.id);
+                this.rooms[key].join(socket, displayName);
 
                 this.userDict[socket.id] = roomName;
 

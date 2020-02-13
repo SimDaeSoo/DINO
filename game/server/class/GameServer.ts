@@ -99,18 +99,27 @@ class GameServer {
         try {
             this.io = SocketIO(this.server, { serveClient: false });
             this.io.on('connection', (socket: SocketIO.Socket): void => { this.connection(socket); });
+            this.roomManager.io = this.io;
         } catch (error) {
             console.log(error);
         }
     }
 
+    private join(socket: SocketIO.Socket, roomName: string, displayName: string): void {
+        this.roomManager.joinRoom(socket, roomName, displayName);
+    }
+
     private connection(socket: SocketIO.Socket): void {
         console.log(socket.id, 'connected');
         socket.on('disconnect', (): void => { this.disconnect(socket); });
+        // const room: string = this.roomManager.userDict[socket.id];
+        // socket.on('broadcast', () => {this.io.emit});
+        socket.on('join', (data: { roomName: string, displayName: string }): void => { this.join(socket, data.roomName, data.displayName); });
     }
 
     private disconnect(socket: SocketIO.Socket): void {
         console.log(socket.id, 'disconnected');
+        this.roomManager.disconnect(socket);
     }
 
     public close(): void {

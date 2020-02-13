@@ -86,6 +86,7 @@ class MasterServer {
     private async createRoom(socket: SocketIO.Socket, name: string): Promise<void> {
         const lowestServer: SocketServerData = this.getLowestSocketServer();
         const createResult = await Network.post(`http://${lowestServer.address}/createRoom`, { name });
+        socket.emit('join', createResult)
     }
 
     private getLowestSocketServer(): SocketServerData {
