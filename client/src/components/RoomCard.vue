@@ -16,7 +16,7 @@
         </span>
       </dd>
     </dl>
-    <button class="join">Join</button>
+    <button class="join" @click="tryJoin">Join</button>
   </div>
 </template>
 
@@ -30,6 +30,8 @@ export default class RoomCard extends Vue {
   private room!: RoomData;
   @Prop()
   private create?: boolean;
+  @Prop()
+  private join!: (addres: string, room: string) => void;
 
   private get timestamp(): string {
     const playTime: number = Number(this.room.playTime);
@@ -50,6 +52,10 @@ export default class RoomCard extends Vue {
     }
 
     return `${hours}:${minutes}:${seconds}`;
+  }
+
+  private tryJoin(): void {
+    this.join(this.room.address, this.room.name);
   }
 }
 </script>

@@ -31,7 +31,7 @@ export default class Login extends Vue {
   private lastDate!: number;
 
   private tryLogin(): void {
-    if (this.unVisible) { return; }
+    if (this.unVisible || !this.id) { return; }
     if (!this.lastDate || Date.now() - 1500 > this.lastDate) {
       this.lastDate = Date.now();
       this.login(this.id);

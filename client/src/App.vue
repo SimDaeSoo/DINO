@@ -6,6 +6,8 @@
       v-if="visibleState('SELECT_SERVER')"
       :unVisible="opacityState('SELECT_SERVER')"
       :rooms="rooms"
+      :join="join"
+      :create="create"
     />
     <GameCanvas
       v-if="visibleState('SELECTED_SERVER')"
@@ -69,6 +71,21 @@ export default class App extends Vue {
       group: 'notification', title: 'System Message -', type: 'success',
       text: `Server connection is successed<br>${new Date().toUTCString()}`,
       duration: 2000,
+    });
+  }
+
+  private create(): void {
+    this.gameClient.createRoom(`${this.displayName}님의 게임`);
+  }
+
+  private join(address: string, room: string): void {
+    if (this.state.next === MAIN_STATE.SELECTED_SERVER) {
+      return;
+    }
+    this.gameClient.disconnect();
+    this.gameClient.connect(address, {
+      connect: (): void => { this.changeState(MAIN_STATE.SELECTED_SERVER); },
+      disconnect: this.disconnect.bind(this),
     });
   }
 

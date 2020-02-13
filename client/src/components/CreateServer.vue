@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card" @click="create">
     <img class="plus_icon" src="../assets/plus.png">
     <span class="create">Create New Game</span>
   </div>
@@ -11,6 +11,8 @@ import { RoomData } from '../../../game/union/interface/RoomData';
 
 @Component
 export default class CreateServer extends Vue {
+  @Prop()
+  private create!: () => void;
 }
 </script>
 

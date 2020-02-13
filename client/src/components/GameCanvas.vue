@@ -7,6 +7,8 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
 export default class GameCanvas extends Vue {
+  @Prop()
+  private unVisible!: boolean;
 }
 </script>
 

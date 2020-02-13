@@ -1,7 +1,7 @@
 <template>
   <div class="full_page" :class="{'unVisible':unVisible}">
-    <CreateServer/>
-    <RoomCard v-for="(room) in rooms" :key="room.id + room.address" :room="room"/>
+    <CreateServer :create="tryCreate"/>
+    <RoomCard v-for="(room) in rooms" :key="room.id + room.address" :room="room" :join="join"/>
   </div>
 </template>
 
@@ -19,6 +19,19 @@ export default class SelectServer extends Vue {
   private unVisible!: boolean;
   @Prop()
   private rooms!: RoomData[];
+  @Prop()
+  private join!: (addres: string, room: string) => void;
+  @Prop()
+  private create!: () => void;
+  private lastDate!: number;
+
+  private tryCreate(): void {
+    if (this.unVisible) { return; }
+    if (!this.lastDate || Date.now() - 2000 > this.lastDate) {
+      this.lastDate = Date.now();
+      this.create();
+    }
+  }
 }
 </script>
 

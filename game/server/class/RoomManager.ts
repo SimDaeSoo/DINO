@@ -9,6 +9,7 @@ export class RoomManager {
 
     public createRoom(options?: RoomOptions): Room {
         const newRoom: Room = new Room(options);
+        newRoom.setID(this.getUniqueRoomIndex());
         this.rooms.push(newRoom);
 
         return newRoom;
@@ -67,8 +68,8 @@ export class RoomManager {
         this.leaveRoom(socket, this.userDict[socket.id]);
     }
 
-    public getRoomName(): string {
+    public getUniqueRoomIndex(): number {
         this.roomNumber++;
-        return `Room${this.roomNumber}`;
+        return this.roomNumber;
     }
 }

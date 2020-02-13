@@ -1,8 +1,12 @@
+import { Express, Request, Response, NextFunction } from 'express';
 import * as express from 'express';
+import * as bodyParser from 'body-parser';
 import * as SocketIO from 'socket.io';
 import * as ip from 'public-ip';
 import { Server } from 'http';
 import { Error } from '../interface/Server';
+import { Room } from './Room';
+import { RoomManager } from './RoomManager';
 import Updater from '../../union/class/Updater';
 import Network from '../../union/class/Network';
 
@@ -10,15 +14,50 @@ class GameServer {
     private IP!: string;
     private port!: number;
     private server!: Server;
+    private io!: SocketIO.Server;
+    private application!: Express;
     private updater!: Updater;
+    private roomManager: RoomManager = new RoomManager();
 
     public async initialize(): Promise<void> {
-        this.IP = await ip.v4();
+        // this.IP = await ip.v4();
+        this.IP = '10.33.0.18';
+        this.application = express();
+        this.middleware();
+        this.routing();
+    }
+
+    private middleware(): void {
+        this.application.use(bodyParser.json({ limit: '10mb' }));
+        this.application.use(bodyParser.urlencoded({ extended: false, limit: '10mb', parameterLimit: 1000000 }));
+
+        // CORS 문제.
+        this.application.all('*', (req: Request, res: Response, next: NextFunction) => {
+            res.header('Access-Control-Allow-Origin', '*');
+            res.header('Access-Control-Allow-Headers', 'Content-Type,Content-Length, Authorization, Accept,X-Requested-With');
+            res.header('Access-Control-Allow-Methods', 'POST,GET');
+            next();
+        });
+    }
+
+    private routing(): void {
+        this.application.post('/createRoom', this.createRoom.bind(this))
+    }
+
+    private createRoom(request: Request, response: Response, next: NextFunction): void {
+        const name: string = request.body.name;
+        const newRoom: Room = this.roomManager.createRoom({ name });
+
+        response.json({
+            success: true,
+            address: `http://${this.IP}:${this.port}`,
+            roomName: newRoom.name,
+        });
     }
 
     public open(port: number): void {
         this.port = port;
-        this.server = express().listen(this.port);
+        this.server = this.application.listen(this.port);
 
         this.server.once('error', (err: Error): void => {
             if (err.code === 'EADDRINUSE') {
@@ -38,23 +77,19 @@ class GameServer {
         if (!this.updater) this.updater = new Updater();
 
         this.updater.on('apply', 1000, (): void => {
-            // Rooms 는 Test
-            const rand: number = Math.round(Math.random() * 10);
-            const rooms = [];
-            for (let i = 0; i < rand; i++) {
-                rooms.push({
-                    id: i + 1,
-                    name: `${i + 1} Room`,
-                    currentUser: Math.round(Math.random() * 8),
-                    maximumUser: 8,
-                    playTime: Math.round(Math.random() * 10000000),
+            const rooms = this.roomManager.rooms.map((room: Room) => {
+                return {
+                    id: room.id,
+                    name: room.name,
+                    currentUser: room.members.length,
+                    maximumUser: room.maxMembers,
                     status: 'Wait',
-                    address: `http://${this.IP}:${this.port}`
-                })
-            }
-            //test
+                    address: `${this.IP}:${this.port}`,
+                    playTime: room.playTime
+                };
+            });
             Network.post(`http://${address}/apply`, {
-                address: `http://${this.IP}:${this.port}`,
+                address: `${this.IP}:${this.port}`,
                 rooms: rooms
             });
         });
@@ -62,8 +97,8 @@ class GameServer {
 
     private createSocketServer(): void {
         try {
-            const socketServer: SocketIO.Server = SocketIO(this.server, { serveClient: false });
-            socketServer.on('connection', (socket: SocketIO.Socket): void => { this.connection(socket); });
+            this.io = SocketIO(this.server, { serveClient: false });
+            this.io.on('connection', (socket: SocketIO.Socket): void => { this.connection(socket); });
         } catch (error) {
             console.log(error);
         }

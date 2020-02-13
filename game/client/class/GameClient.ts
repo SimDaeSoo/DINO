@@ -31,6 +31,10 @@ export default class GameClient {
         this.socket.close();
     }
 
+    public createRoom(roomName: string): void {
+        this.socket.emit('createRoom', roomName);
+    }
+
     private connected(): void {
         // Renderer 새로 만든다.
         if (this.callback.connect) this.callback.connect();

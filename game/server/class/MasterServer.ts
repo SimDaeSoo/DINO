@@ -8,6 +8,7 @@ import { Error } from '../interface/Server';
 import Dictionary from '../../union/interface/Dictionary';
 import SocketServerData from '../../union/interface/SocketServerData';
 import Updater from '../../union/class/Updater';
+import Network from '../../union/class/Network';
 
 class MasterServer {
     private IP!: string;
@@ -75,10 +76,30 @@ class MasterServer {
     private connection(socket: SocketIO.Socket): void {
         console.log(socket.id, 'connected');
         socket.on('disconnect', (): void => { this.disconnect(socket); });
+        socket.on('createRoom', (name: string): void => { this.createRoom(socket, name); });
     }
 
     private disconnect(socket: SocketIO.Socket): void {
         console.log(socket.id, 'disconnected');
+    }
+
+    private async createRoom(socket: SocketIO.Socket, name: string): Promise<void> {
+        const lowestServer: SocketServerData = this.getLowestSocketServer();
+        const createResult = await Network.post(`http://${lowestServer.address}/createRoom`, { name });
+    }
+
+    private getLowestSocketServer(): SocketServerData {
+        let result: SocketServerData;
+
+        for (let address in this.socketServerDictionary) {
+            const serverData: SocketServerData = this.socketServerDictionary[address];
+
+            if (!result || serverData.rooms.length < result.rooms.length) {
+                result = serverData;
+            }
+        }
+
+        return result;
     }
 
     public close(): void {
