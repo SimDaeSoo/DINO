@@ -76,7 +76,7 @@ export default class RoomCard extends Vue {
   top: 20px;
   left: 120px;
   position: absolute;
-  font-size: 1em;
+  font-size: 0.9em;
 }
 .flag_icon {
   width: 50px;
