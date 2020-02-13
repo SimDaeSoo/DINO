@@ -1,6 +1,10 @@
 <template>
   <div class="card">
     <dl>
+      <dt class="id">
+        <img class="flag_icon" src="../assets/flag.png">
+        <span class="id_string">{{room.id}}</span>
+      </dt>
       <dt class="title">{{room.name}}</dt>
       <dd>
         <span class="left">
@@ -61,6 +65,23 @@ export default class RoomCard extends Vue {
 </script>
 
 <style scoped>
+.id {
+  position: absolute;
+  top: -8px;
+  left: -123px;
+}
+.id_string {
+  text-align: center;
+  width: 30px;
+  top: 20px;
+  left: 120px;
+  position: absolute;
+  font-size: 1em;
+}
+.flag_icon {
+  width: 40px;
+  height: 50px;
+}
 .clock {
   display: flex;
 }

@@ -9,10 +9,8 @@
       :join="join"
       :create="create"
     />
-    <GameCanvas
-      v-if="visibleState('SELECTED_SERVER')"
-      :unVisible="opacityState('SELECTED_SERVER')"
-    />
+    <Room v-if="visibleState('SELECTED_SERVER')" :unVisible="opacityState('SELECTED_SERVER')"/>
+    <GameCanvas v-if="visibleState('START_GAME')" :unVisible="opacityState('START_GAME')"/>
     <notifications position="top left" group="notification"/>
   </div>
 </template>
@@ -22,6 +20,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import Loader from './components/Loader.vue';
 import Login from './components/Login.vue';
 import SelectServer from './components/SelectServer.vue';
+import Room from './components/Room.vue';
 import GameCanvas from './components/GameCanvas.vue';
 import GameClient from '../../game/client/class/GameClient';
 import { MAIN_STATE } from '../../game/client/interface/MainState';
@@ -30,7 +29,7 @@ import SocketServerData from '../../game/union/interface/SocketServerData';
 import { RoomData } from '../../game/union/interface/RoomData';
 
 @Component({
-  components: { Loader, Login, SelectServer, GameCanvas },
+  components: { Loader, Login, SelectServer, Room, GameCanvas },
 })
 export default class App extends Vue {
   private state: Dictionary<MAIN_STATE> = { current: MAIN_STATE.WAIT, next: MAIN_STATE.WAIT };
