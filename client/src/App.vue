@@ -9,7 +9,11 @@
       :join="join"
       :create="create"
     />
-    <Room v-if="visibleState('SELECTED_SERVER')" :unVisible="opacityState('SELECTED_SERVER')"/>
+    <Room
+      v-if="visibleState('SELECTED_SERVER')"
+      :unVisible="opacityState('SELECTED_SERVER')"
+      :gameClient="gameClient"
+    />
     <GameCanvas v-if="visibleState('START_GAME')" :unVisible="opacityState('START_GAME')"/>
     <notifications position="top left" group="notification"/>
   </div>

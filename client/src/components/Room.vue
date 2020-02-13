@@ -8,12 +8,32 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Watch, Prop, Vue } from 'vue-property-decorator';
+import GameClient from '../../../game/client/class/GameClient';
 
 @Component
 export default class Room extends Vue {
   @Prop()
   private unVisible!: boolean;
+  @Prop()
+  private gameClient!: GameClient;
+
+  @Watch('unVisible')
+  private setClient(): void {
+    if (!this.unVisible) {
+      this.create();
+    } else {
+      this.destory();
+    }
+  }
+
+  private create(): void {
+    console.log('create');
+  }
+
+  private destory(): void {
+    console.log('destory');
+  }
 }
 </script>
 

@@ -10,11 +10,11 @@ interface User { id: string, displayName: string };
 export class Room {
     public members: Array<User> = [];
     public playTime: number = 0;
-    private io: SocketIO.Server;
     public get id(): number { return this.options.id; }
     public get name(): string { return this.options.name; }
     public get maxMembers(): number { return this.options.maxMembers; }
     public get joinable(): boolean { return this.members.length < this.options.maxMembers && !this.isStarted; }
+    private io: SocketIO.Server;
 
     private options!: RoomOptions;
     private isStarted!: boolean;

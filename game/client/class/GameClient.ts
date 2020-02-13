@@ -3,10 +3,10 @@ import Dictionary from '../../union/interface/Dictionary';
 import SocketServerData from '../../union/interface/SocketServerData';
 
 export default class GameClient {
-    private socket!: SocketIOClient.Socket;
+    public socket!: SocketIOClient.Socket;
+    public servers: Array<SocketServerData> = [];
     private callback: Dictionary<Function> = {};
     private displayName: string = '';
-    public servers: Array<SocketServerData> = [];
 
     public setDisplayName(displayName: string): void {
         this.displayName = displayName;
