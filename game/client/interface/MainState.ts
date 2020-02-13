@@ -3,4 +3,5 @@ export const enum MAIN_STATE {
     LOADING = 'LOADING',
     LOGIN = 'LOGIN',
     SELECT_SERVER = 'SELECT_SERVER',
+    SELECTED_SERVER = 'SELECTED_SERVER',
 }

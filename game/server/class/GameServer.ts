@@ -38,21 +38,24 @@ class GameServer {
         if (!this.updater) this.updater = new Updater();
 
         this.updater.on('apply', 1000, (): void => {
+            // Rooms 는 Test
+            const rand: number = Math.round(Math.random() * 10);
+            const rooms = [];
+            for (let i = 0; i < rand; i++) {
+                rooms.push({
+                    id: i + 1,
+                    name: `${i + 1} Room`,
+                    currentUser: Math.round(Math.random() * 8),
+                    maximumUser: 8,
+                    playTime: Math.round(Math.random() * 10000000),
+                    status: 'Wait',
+                    address: `http://${this.IP}:${this.port}`
+                })
+            }
+            //test
             Network.post(`http://${address}/apply`, {
                 address: `http://${this.IP}:${this.port}`,
-                // Rooms 는 Test
-                rooms: [
-                    { name: '1 Room', address: `http://${this.IP}:${this.port}` },
-                    { name: '2 Room', address: `http://${this.IP}:${this.port}` },
-                    { name: '3 Room', address: `http://${this.IP}:${this.port}` },
-                    { name: '4 Room', address: `http://${this.IP}:${this.port}` },
-                    { name: '5 Room', address: `http://${this.IP}:${this.port}` },
-                    { name: '6 Room', address: `http://${this.IP}:${this.port}` },
-                    { name: '7 Room', address: `http://${this.IP}:${this.port}` },
-                    { name: '8 Room', address: `http://${this.IP}:${this.port}` },
-                    { name: '9 Room', address: `http://${this.IP}:${this.port}` },
-                    { name: '10 Room', address: `http://${this.IP}:${this.port}` }
-                ]
+                rooms: rooms
             });
         });
     }
