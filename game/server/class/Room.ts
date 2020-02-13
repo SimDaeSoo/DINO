@@ -1,3 +1,4 @@
+import * as SocketIO from 'socket.io';
 export interface RoomOptions {
     id?: number;
     name: string;
