@@ -9,6 +9,7 @@ import { Room } from './Room';
 import { RoomManager } from './RoomManager';
 import Updater from '../../union/class/Updater';
 import Network from '../../union/class/Network';
+import { RoomData } from '../../union/interface/RoomData';
 
 class GameServer {
     private IP!: string;
@@ -21,7 +22,7 @@ class GameServer {
 
     public async initialize(): Promise<void> {
         // this.IP = await ip.v4();
-        this.IP = '10.33.0.18';
+        this.IP = 'localhost';
         this.application = express();
         this.middleware();
         this.routing();
@@ -78,16 +79,8 @@ class GameServer {
         if (!this.updater) this.updater = new Updater();
 
         this.updater.on('apply', 1000, (): void => {
-            const rooms = this.roomManager.rooms.map((room: Room) => {
-                return {
-                    id: room.id,
-                    name: room.name,
-                    currentUser: room.members.length,
-                    maximumUser: room.maxMembers,
-                    status: 'Wait',
-                    address: `${this.IP}:${this.port}`,
-                    playTime: room.playTime
-                };
+            const rooms: Array<RoomData> = this.roomManager.rooms.map((room: Room): RoomData => {
+                return Object.assign(room.roomData, { address: `${this.IP}:${this.port}` });
             });
             Network.post(`http://${address}/apply`, {
                 address: `${this.IP}:${this.port}`,
@@ -107,14 +100,15 @@ class GameServer {
     }
 
     private join(socket: SocketIO.Socket, roomName: string, displayName: string): void {
-        this.roomManager.joinRoom(socket, roomName, displayName);
+        const joinSuccess: boolean = this.roomManager.joinRoom(socket, roomName, displayName);
+        if (!joinSuccess) {
+            socket.disconnect(true);
+        }
     }
 
     private connection(socket: SocketIO.Socket): void {
         console.log(socket.id, 'connected');
         socket.on('disconnect', (): void => { this.disconnect(socket); });
-        // const room: string = this.roomManager.userDict[socket.id];
-        // socket.on('broadcast', () => {this.io.emit});
         socket.on('join', (data: { roomName: string, displayName: string }): void => { this.join(socket, data.roomName, data.displayName); });
     }
 

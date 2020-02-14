@@ -9,7 +9,7 @@
       <dd>
         <span class="left">
           <img class="user_icon" src="../assets/user.png">
-          <span class="user_status">{{room.currentUser}} / {{room.maximumUser}}</span>
+          <span class="user_status">{{room.members.length}} / {{room.maxMembers}}</span>
         </span>
         <span></span>
         <span class="right">
@@ -59,7 +59,11 @@ export default class RoomCard extends Vue {
   }
 
   private tryJoin(): void {
-    this.join(this.room.address, this.room.name);
+    if (this.room.members.length < this.room.maxMembers) {
+      if (this.room.address) {
+        this.join(this.room.address, this.room.name);
+      }
+    }
   }
 }
 </script>

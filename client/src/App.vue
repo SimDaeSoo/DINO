@@ -48,7 +48,7 @@ export default class App extends Vue {
   }
 
   private connectMaster() {
-    const socketURL: string = 'http://10.33.0.18:1234';
+    const socketURL: string = 'http://localhost:1234';
     this.gameClient.connect(socketURL, {
       connect: this.connect.bind(this),
       disconnect: this.disconnect.bind(this),
@@ -70,7 +70,11 @@ export default class App extends Vue {
   }
 
   private connect(): void {
-    this.changeState(MAIN_STATE.LOGIN);
+    if (this.displayName) {
+      this.changeState(MAIN_STATE.SELECT_SERVER);
+    } else {
+      this.changeState(MAIN_STATE.LOGIN);
+    }
     this.$notify({
       group: 'notification', title: 'System Message -', type: 'success',
       text: `Server connection is successed<br>${new Date().toUTCString()}`,

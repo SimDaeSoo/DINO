@@ -42,7 +42,7 @@ export default class SelectServer extends Vue {
   opacity: 1;
   transition: opacity 1.5s ease-in;
   text-align: center;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 .full_page.unVisible {
   opacity: 0;
