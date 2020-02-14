@@ -5,8 +5,8 @@
     </div>
 
     <div class="button_wrap">
-      <button>Exit</button>
-      <button>Ready</button>
+      <button class="half">Exit</button>
+      <button class="half">Ready</button>
     </div>
   </div>
 </template>
@@ -20,19 +20,19 @@ export default class RoomFooter extends Vue {
 </script>
 
 <style scoped>
-.room_title {
-  width: 100%;
-  height: 40px;
-  background: cadetblue;
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin: auto;
+button {
+  width: calc(50% - 6px);
+  height: 30px;
+  border-radius: 5px;
+  background: white;
+  margin: 3px;
+  font-size: 1.2em;
 }
 
 .character_list {
   height: 120px;
-  margin: auto;
+  margin: 3px;
+  border-radius: 5px;
   background: white;
 }
 
@@ -43,6 +43,7 @@ export default class RoomFooter extends Vue {
   left: 0;
   right: 0;
   margin: auto;
+  z-index: 1;
 }
 
 @media screen and (min-width: 769px) {

@@ -79,9 +79,8 @@ export default class Room extends Vue {
 .user_slot {
   display: inline-block;
   overflow-y: auto;
-  margin-bottom: 120px;
   margin-top: 40px;
-  max-height: calc(100% - 180px);
+  max-height: calc(100% - 196px);
 }
 
 .full_page {
@@ -99,7 +98,6 @@ export default class Room extends Vue {
 @media screen and (min-width: 769px) {
   .user_slot {
     max-width: 1024px;
-    margin-bottom: 180px;
   }
   .footer {
     max-width: 1024px;

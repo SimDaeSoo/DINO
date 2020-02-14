@@ -1,5 +1,11 @@
 <template>
-  <div class="room_title">{{id}}번방 {{title}}</div>
+  <div class="room_title">
+    <div class="flag_wrapper">
+      <img class="flag_icon" src="../assets/flag.png">
+      <span class="room_id">{{id}}</span>
+    </div>
+    {{title}}
+  </div>
 </template>
 
 <script lang="ts">
@@ -15,16 +21,36 @@ export default class RoomTitle extends Vue {
 </script>
 
 <style scoped>
+.room_id {
+  position: absolute;
+  width: 40px;
+  text-align: center;
+  left: 10px;
+  top: 15px;
+  font-size: 0.7em;
+}
+.flag_wrapper {
+  position: absolute;
+  left: -15px;
+  top: -10px;
+}
+.flag_icon {
+  width: 60px;
+  height: 72px;
+}
 .room_title {
   width: 100%;
   height: 40px;
-  background: cadetblue;
+  background: steelblue;
   position: absolute;
   left: 0;
   right: 0;
   margin: auto;
   font-size: 1.5em;
-  line-height: 40px;
+  line-height: 42px;
+  color: white;
+  z-index: 1;
+  border-radius: 5px;
 }
 
 @media screen and (min-width: 769px) {

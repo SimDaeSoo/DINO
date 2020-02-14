@@ -22,7 +22,7 @@ class GameServer {
 
     public async initialize(): Promise<void> {
         // this.IP = await ip.v4();
-        this.IP = 'localhost';
+        this.IP = '10.33.0.18';
         this.application = express();
         this.middleware();
         this.routing();
