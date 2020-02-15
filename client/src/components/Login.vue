@@ -1,25 +1,25 @@
 <template>
   <div class="login_page">
     <div class="login-form" :class="{'unVisible': unVisible}">
-      <h1>DINO</h1>
-      <div class="form-field">
+      <h1 class="no_drag">DINO</h1>
+      <div class="form-field no_drag">
         <input
           type="text"
-          class="form-field"
+          class="form-field no_drag"
           pattern="^[a-zA-Z0-9_-]{1,16}$"
           placeholder=" "
           v-model="id"
           required
-        >
-        <label for="username">Insert Name</label>
+        />
+        <label for="username no_drag">Insert Name</label>
       </div>
-      <button class="btn" @click="tryLogin">Start</button>
+      <button class="btn no_drag" @click="tryLogin">Start</button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
 export default class Login extends Vue {
@@ -27,11 +27,13 @@ export default class Login extends Vue {
   private unVisible!: boolean;
   @Prop()
   private login!: (id: string) => void;
-  private id: string = '';
+  private id: string = "";
   private lastDate!: number;
 
   private tryLogin(): void {
-    if (this.unVisible || !this.id) { return; }
+    if (this.unVisible || !this.id) {
+      return;
+    }
     if (!this.lastDate || Date.now() - 1500 > this.lastDate) {
       this.lastDate = Date.now();
       this.login(this.id);

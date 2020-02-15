@@ -1,18 +1,15 @@
 <template>
-  <div class="user_card">
-    <img class="crown_icon" src="../assets/crown.png" v-if="isOwner">
-    <div class="blank">blank</div>
-    <div class="display_name">{{user.displayName}}</div>
-    <div class="character_preview">
-      <img
-        class="character_image"
-        src="https://cdn.shopify.com/s/files/1/0231/6137/2752/files/bt21-group_1600x.jpg?v=1563920463"
-      >
+  <div class="user_card no_drag">
+    <img class="crown_icon no_drag" src="../assets/crown.png" v-if="isOwner" />
+    <div class="blank no_drag">blank</div>
+    <div class="display_name no_drag">{{user.displayName}}</div>
+    <div class="character_preview no_drag">
+      <img class="character_idle_image no_drag" src="../assets/character/1/idle.gif" />
     </div>
     <!-- <div class="status">{{user.status}}</div> -->
-    <button v-if="canFire" class="ban_button">X</button>
+    <button v-if="canFire" class="ban_button no_drag">X</button>
     <div
-      class="ready_bar"
+      class="ready_bar no_drag"
       :style="{'background':user.status==='Ready'?'mediumspringgreen':'lightcoral'}"
     >{{user.status}}</div>
     <!-- <button v-if="canFire">방장위임</button> -->
@@ -20,8 +17,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import { UserData } from '../../../game/union/interface/RoomData';
+import { Component, Prop, Vue } from "vue-property-decorator";
+import { UserData } from "../../../game/union/interface/RoomData";
 
 @Component
 export default class UserCard extends Vue {
@@ -38,17 +35,20 @@ export default class UserCard extends Vue {
 .ready_bar {
   width: 100%;
   height: 17px;
-  font-weight: 500;
-  background: mediumspringgreen;
+  font-weight: 600;
+  color: black;
 }
 .character_preview {
   width: 100%;
   height: 60px;
   margin-top: 3px;
+  background: #333333;
 }
-.character_image {
-  width: 100%;
-  height: 100%;
+.character_idle_image {
+  width: 30px;
+  height: 30px;
+  margin-top: 14px;
+  image-rendering: pixelated;
 }
 .ban_button {
   width: 24px;
@@ -62,6 +62,7 @@ export default class UserCard extends Vue {
   right: 2px;
   top: 0;
   background: none;
+  filter: brightness(0) invert(1);
 }
 .crown_icon {
   width: 16px;
@@ -79,13 +80,14 @@ export default class UserCard extends Vue {
   margin: 10px;
   width: 160px;
   height: 100px;
-  background: white;
+  background: #242424;
   display: inline-table;
   position: relative;
   -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16),
     0 3px 6px rgba(0, 0, 0, 0.23);
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   overflow: hidden;
+  color: white;
 }
 .blank {
   width: 100%;
@@ -104,6 +106,11 @@ export default class UserCard extends Vue {
   .character_preview {
     height: 90px;
     margin-top: 11px;
+  }
+  .character_idle_image {
+    width: 50px;
+    height: 50px;
+    margin-top: 18px;
   }
   .user_card {
     width: 240px;

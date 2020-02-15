@@ -2,25 +2,25 @@
   <div class="card">
     <dl>
       <dt class="id">
-        <img class="flag_icon" src="../assets/flag.png">
-        <span class="id_string">{{room.id}}</span>
+        <img class="flag_icon no_drag" src="../assets/flag.png">
+        <span class="id_string no_drag">{{room.id}}</span>
       </dt>
-      <dt class="title">{{room.name}}</dt>
+      <dt class="title no_drag">{{room.name}}</dt>
       <dd>
         <span class="left">
-          <img class="user_icon" src="../assets/user.png">
-          <span class="user_status">{{room.members.length}} / {{room.maxMembers}}</span>
+          <img class="user_icon no_drag" src="../assets/user.png">
+          <span class="user_status no_drag">{{room.members.length}} / {{room.maxMembers}}</span>
         </span>
         <span></span>
         <span class="right">
           <div class="clock">
-            <img class="clock_icon" src="../assets/clock.png">
-            <span class="clock_status">{{timestamp}}</span>
+            <img class="clock_icon no_drag" src="../assets/clock.png">
+            <span class="clock_status no_drag">{{timestamp}}</span>
           </div>
         </span>
       </dd>
     </dl>
-    <button class="join" @click="tryJoin">Join</button>
+    <button class="join no_drag" @click="tryJoin">Join</button>
   </div>
 </template>
 

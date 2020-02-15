@@ -1,12 +1,12 @@
 <template>
   <div class="footer">
-    <div class="character_list">
-      <div class="character_card">Hello</div>
+    <div class="character_list ">
+      <div class="character_card no_drag">Hello</div>
     </div>
 
     <div class="button_wrap">
-      <button class="half">Exit</button>
-      <button class="half">Ready</button>
+      <button class="half no_drag">Exit</button>
+      <button class="half no_drag">Ready</button>
     </div>
   </div>
 </template>

@@ -1,8 +1,8 @@
 <template>
-  <div class="room_title">
+  <div class="room_title no_drag">
     <div class="flag_wrapper">
-      <img class="flag_icon" src="../assets/flag.png">
-      <span class="room_id">{{id}}</span>
+      <img class="flag_icon no_drag" src="../assets/flag.png">
+      <span class="room_id no_drag">{{id}}</span>
     </div>
     {{title}}
   </div>

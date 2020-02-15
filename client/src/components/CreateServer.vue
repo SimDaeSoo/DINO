@@ -1,7 +1,7 @@
 <template>
   <div class="card" @click="create">
-    <img class="plus_icon" src="../assets/plus.png">
-    <span class="create">Create New Game</span>
+    <img class="plus_icon no_drag" src="../assets/plus.png">
+    <span class="create no_drag">Create New Game</span>
   </div>
 </template>
 

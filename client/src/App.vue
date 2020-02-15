@@ -48,7 +48,7 @@ export default class App extends Vue {
   }
 
   private connectMaster() {
-    const socketURL: string = 'http://10.33.0.18:1234';
+    const socketURL: string = 'http://localhost:1234';
     this.gameClient.connect(socketURL, {
       connect: this.connect.bind(this),
       disconnect: this.disconnect.bind(this),

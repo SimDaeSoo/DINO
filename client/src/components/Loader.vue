@@ -1,10 +1,10 @@
 <template>
   <div id="contents" :class="{'unVisible': unVisible}">
     <div class="loader">
-      <div class="inner one"></div>
-      <div class="inner two"></div>
-      <div class="inner three"></div>
-      <div class="inner_text">Loading</div>
+      <div class="inner one no_drag"></div>
+      <div class="inner two no_drag"></div>
+      <div class="inner three no_drag"></div>
+      <div class="inner_text no_drag">Loading</div>
     </div>
   </div>
 </template>
