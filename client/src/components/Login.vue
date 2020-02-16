@@ -5,7 +5,7 @@
       <div class="form-field no_drag">
         <input
           type="text"
-          class="form-field no_drag"
+          class="form-field"
           pattern="^[a-zA-Z0-9_-]{1,16}$"
           placeholder=" "
           v-model="id"
