@@ -3,4 +3,4 @@ import * as express from 'express';
 
 const server: Express = express();
 server.use(express.static('../client/dist'));
-server.listen(8080);
+server.listen(80);
