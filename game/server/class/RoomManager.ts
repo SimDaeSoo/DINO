@@ -1,4 +1,4 @@
-import { Room, RoomOptions } from './room';
+import { Room, RoomOptions } from './Room';
 import * as socketIO from 'socket.io';
 import Dictionary from '../../union/interface/Dictionary';
 
