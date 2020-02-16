@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <Loader v-if="visibleState('LOADING')" :unVisible="opacityState('LOADING')"/>
-    <Login v-if="visibleState('LOGIN')" :unVisible="opacityState('LOGIN')" :login="setDisplayName"/>
+    <Loader v-if="visibleState('LOADING')" :unVisible="opacityState('LOADING')" />
+    <Login v-if="visibleState('LOGIN')" :unVisible="opacityState('LOGIN')" :login="setDisplayName" />
     <SelectServer
       v-if="visibleState('SELECT_SERVER')"
       :unVisible="opacityState('SELECT_SERVER')"
@@ -14,8 +14,8 @@
       :unVisible="opacityState('SELECTED_SERVER')"
       :gameClient="gameClient"
     />
-    <GameCanvas v-if="visibleState('START_GAME')" :unVisible="opacityState('START_GAME')"/>
-    <notifications position="top left" group="notification"/>
+    <GameCanvas v-if="visibleState('START_GAME')" :unVisible="opacityState('START_GAME')" />
+    <notifications position="top left" group="notification" />
   </div>
 </template>
 
@@ -48,8 +48,10 @@ export default class App extends Vue {
   }
 
   private connectMaster() {
-    const socketURL: string = 'http://localhost:1234';
-    this.gameClient.connect(socketURL, {
+    const masterIP: string = '13.209.124.232';
+    // const masterIP: string = 'localhost';
+    const address: string = `http://${}:1234`;
+    this.gameClient.connect(address, {
       connect: this.connect.bind(this),
       disconnect: this.disconnect.bind(this),
       setServers: this.setServers.bind(this),
@@ -117,7 +119,7 @@ export default class App extends Vue {
 
   private changeState(state: MAIN_STATE): void {
     this.state.next = state;
-    setTimeout(() => { this.state.current = state; }, 2000);
+    setTimeout(() => { this.state.current = state; }, 1000);
   }
 
   private setDisplayName(name: string): void {

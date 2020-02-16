@@ -40,12 +40,12 @@ export default class SelectServer extends Vue {
   width: 100%;
   height: 100%;
   opacity: 1;
-  transition: opacity 1.5s ease-in;
+  transition: opacity 0.8s ease-in;
   text-align: center;
   overflow-y: auto;
 }
 .full_page.unVisible {
   opacity: 0;
-  transition: opacity 1.5s ease-in;
+  transition: opacity 0.8s ease-in;
 }
 </style>

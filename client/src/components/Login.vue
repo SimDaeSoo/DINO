@@ -53,12 +53,12 @@ export default class Login extends Vue {
   align-items: center;
 }
 .login-form.unVisible {
-  transition: opacity 1.5s ease-in;
+  transition: opacity 0.8s ease-in;
   opacity: 0;
 }
 .login-form {
   opacity: 1;
-  transition: opacity 1.5s ease-in;
+  transition: opacity 0.8s ease-in;
   font-family: Lato, sans-serif;
   display: flex;
   flex-direction: column;

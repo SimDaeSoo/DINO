@@ -21,8 +21,8 @@ class GameServer {
     private roomManager: RoomManager = new RoomManager();
 
     public async initialize(): Promise<void> {
-        // this.IP = await ip.v4();
-        this.IP = 'localhost';
+        this.IP = await ip.v4();
+        // this.IP = 'localhost'; //Local Test
         this.application = express();
         this.middleware();
         this.routing();

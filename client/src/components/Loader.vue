@@ -21,11 +21,11 @@ export default class Loader extends Vue {
 
 <style scoped>
 #contents {
-  transition: opacity 1.5s ease-in;
+  transition: opacity 0.8s ease-in;
   opacity: 1;
 }
 #contents.unVisible {
-  transition: opacity 1.5s ease-in;
+  transition: opacity 0.8s ease-in;
   opacity: 0;
 }
 .inner_text {
