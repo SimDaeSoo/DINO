@@ -30,7 +30,7 @@ import GameClient from "../../../game/client/class/GameClient";
 import { UserData } from "../../../game/union/interface/RoomData";
 
 @Component({
-  components: { CharacterCard }
+  components: { CharacterCard },
 })
 export default class RoomFooter extends Vue {
   @Prop()
