@@ -59,7 +59,7 @@ export default class CharacterCard extends Vue {}
   margin-top: 15px;
 }
 .character_name {
-  font-size: 1.5em;
+  font-size: 1.3em;
   color: white;
   font-weight: 600;
   width: 190px;
@@ -70,10 +70,14 @@ export default class CharacterCard extends Vue {}
 .character_discription {
   font-size: 0.9em;
   color: darkgray;
-  width: 190px;
+  width: 182px;
   position: absolute;
   right: 10px;
   top: 30px;
+  text-align: left;
+  background: #242424;
+  border-radius: 4px;
+  padding: 4px;
 }
 
 .select_button {
