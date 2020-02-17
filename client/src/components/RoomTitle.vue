@@ -50,7 +50,6 @@ export default class RoomTitle extends Vue {
   line-height: 42px;
   color: white;
   z-index: 1;
-  border-radius: 5px;
 }
 
 @media screen and (min-width: 769px) {

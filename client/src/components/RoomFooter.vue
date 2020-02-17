@@ -1,25 +1,53 @@
 <template>
   <div class="footer">
-    <div class="character_list ">
-      <div class="character_card no_drag">Hello</div>
+    <div class="character_list">
+      <span class="character_logo">Character</span>
+      <div class="swipe">
+        <CharacterCard />
+        <CharacterCard />
+        <CharacterCard />
+        <CharacterCard />
+        <CharacterCard />
+      </div>
     </div>
 
     <div class="button_wrap">
-      <button class="half no_drag">Exit</button>
-      <button class="half no_drag">Ready</button>
+      <button class="exit_button half no_drag">Exit</button>
+      <button class="ready_button half no_drag">Ready</button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from "vue-property-decorator";
+import CharacterCard from "./CharacterCard.vue";
 
-@Component
-export default class RoomFooter extends Vue {
-}
+@Component({
+  components: { CharacterCard }
+})
+export default class RoomFooter extends Vue {}
 </script>
 
 <style scoped>
+.exit_button {
+  background: lightcoral;
+  color: darkred;
+  font-weight: 600;
+}
+.ready_button {
+  background: lightgreen;
+  font-weight: 600;
+  color: darkolivegreen;
+}
+.character_logo {
+  position: absolute;
+  z-index: 2;
+  font-size: 2em;
+  font-weight: 600;
+  left: 10px;
+  top: -20px;
+  color: white;
+}
 button {
   width: calc(50% - 6px);
   height: 30px;
@@ -33,7 +61,14 @@ button {
   height: 120px;
   margin: 3px;
   border-radius: 5px;
-  background: white;
+  background: #272727;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.swipe {
+  display: inline-flex;
+  height: 100%;
 }
 
 .footer {
