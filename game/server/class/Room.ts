@@ -58,7 +58,7 @@ export class Room {
     }
 
     private initialize(): void {
-        this.updater.on('sendRoomData', 1000, (): void => {
+        this.updater.on('sendRoomData', 300, (): void => {
             this.io.to(this.options.name).emit('getRoomData', this.roomData);
         });
     }
