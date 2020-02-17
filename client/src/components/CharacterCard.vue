@@ -63,7 +63,7 @@ export default class CharacterCard extends Vue {}
   color: white;
   font-weight: 600;
   width: 190px;
-  top: 3px;
+  top: 2px;
   position: absolute;
   right: 10px;
 }
@@ -71,7 +71,7 @@ export default class CharacterCard extends Vue {}
   font-size: 0.9em;
   color: darkgray;
   width: 182px;
-  height: 28px;
+  height: 36px;
   position: absolute;
   right: 10px;
   top: 26px;
