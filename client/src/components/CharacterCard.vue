@@ -3,9 +3,11 @@
     <div class="character_portrait">
       <img class="character_idle_image no_drag" src="../assets/character/1/idle.gif" />
     </div>
-    <div class="character_name">마법사</div>
-    <div class="character_discription">아군을 방어하는 캐릭터 이다. 아군을 방어하는 캐릭터 이다.</div>
-    <button class="select_button no_drag">SELECT</button>
+    <div class="character_name no_drag">마법사</div>
+    <div class="character_discription no_drag">아군을 방어하는 캐릭터 이다. 아군을 방어하는 캐릭터 이다.</div>
+    <button class="select_button no_drag">
+      <img class="select_icon no_drag" src="../assets/check.png" />
+    </button>
   </div>
 </template>
 
@@ -17,6 +19,14 @@ export default class CharacterCard extends Vue {}
 </script>
 
 <style scoped>
+.select_icon {
+  height: 24px;
+  width: 24px;
+  position: absolute;
+  top: -3px;
+  left: 82px;
+  border-radius: 12px;
+}
 .swipe_card {
   position: relative;
   border-radius: 5px;
@@ -55,7 +65,7 @@ export default class CharacterCard extends Vue {}
   right: 10px;
 }
 .character_discription {
-  font-size: 1em;
+  font-size: 0.9em;
   color: darkgray;
   width: 190px;
   position: absolute;

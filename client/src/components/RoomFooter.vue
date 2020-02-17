@@ -32,11 +32,11 @@ export default class RoomFooter extends Vue {}
 .exit_button {
   background: lightcoral;
   color: darkred;
-  font-weight: 600;
+  font-weight: 400;
 }
 .ready_button {
   background: lightgreen;
-  font-weight: 600;
+  font-weight: 400;
   color: darkolivegreen;
 }
 .character_logo {
