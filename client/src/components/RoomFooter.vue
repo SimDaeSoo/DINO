@@ -16,9 +16,9 @@
       <button
         @click="toggleReady"
         class="ready_button half no_drag"
-        :style="{'background':user.status==='READY'?'lightcoral':'mediumspringgreen',
-        'color':user.status==='READY'?'darkred':'darkolivegreen'}"
-      >{{user.status==='READY'?'Wait':'Ready'}}</button>
+        :style="{'background':(user && user.status)==='READY'?'lightcoral':'mediumspringgreen',
+        'color':(user && user.status)==='READY'?'darkred':'darkolivegreen'}"
+      >{{(user && user.status)==='READY'?'Wait':'Ready'}}</button>
     </div>
   </div>
 </template>
@@ -30,7 +30,7 @@ import GameClient from "../../../game/client/class/GameClient";
 import { UserData } from "../../../game/union/interface/RoomData";
 
 @Component({
-  components: { CharacterCard },
+  components: { CharacterCard }
 })
 export default class RoomFooter extends Vue {
   @Prop()

@@ -13,7 +13,7 @@
       <EmptyUserCard v-for="(data,index) in emptyRoomData" :key="index" />
     </div>
 
-    <RoomFooter :exit="exit" :gameClient="gameClient" :user="user" />
+    <RoomFooter :exit="exit" :gameClient="gameClient" :user="myUserData" />
   </div>
 </template>
 
@@ -23,7 +23,7 @@ import GameClient from "../../../game/client/class/GameClient";
 import {
   RoomData,
   ROOM_STATUS,
-  UserData,
+  UserData
 } from "../../../game/union/interface/RoomData";
 import UserCard from "./UserCard.vue";
 import EmptyUserCard from "./EmptyUserCard.vue";
@@ -31,7 +31,7 @@ import RoomTitle from "./RoomTitle.vue";
 import RoomFooter from "./RoomFooter.vue";
 
 @Component({
-  components: { UserCard, RoomTitle, RoomFooter, EmptyUserCard },
+  components: { UserCard, RoomTitle, RoomFooter, EmptyUserCard }
 })
 export default class Room extends Vue {
   @Prop()
@@ -48,7 +48,7 @@ export default class Room extends Vue {
     playTime: 0,
     owner: "",
     address: "",
-    status: ROOM_STATUS.WAIT,
+    status: ROOM_STATUS.WAIT
   };
 
   @Watch("unVisible")
@@ -58,6 +58,16 @@ export default class Room extends Vue {
     } else {
       this.destory();
     }
+  }
+
+  private get myUserData(): UserData {
+    let myUserData: UserData;
+    this.roomData.members.forEach((member: UserData): void => {
+      if (member.id === this.gameClient.socket.id) {
+        myUserData = member;
+      }
+    });
+    return myUserData;
   }
 
   private create(): void {
