@@ -46,6 +46,7 @@ export class Room {
         let findIndex: number = 0;
         this.members.forEach((member: User, index: number): void => {
             if (member.id === id) {
+                this.destroySocket(member.socket);
                 findIndex = index;
             }
         });
@@ -63,14 +64,22 @@ export class Room {
     }
 
     private initializeSocket(socket: SocketIO.Socket): void {
-        // member.socket.on('test', undefined);
+        socket.on('toggleReady', (): void => {
+            this.toggleReady(socket);
+        });
+        socket.on('ban', (banUserID: string): void => {
+            if (socket.id === this.owner) {
+                const user: User = this.getMemberByID(banUserID);
+                user.socket.disconnect();
+            }
+        });
+    }
+
+    private destroySocket(socket: SocketIO.Socket): void {
+        socket.removeAllListeners();
     }
 
     public destroy(): void {
-        // 죽기전에 리스너도 떼주고 게임도 없애기 처리해준다.
-        this.members.forEach((member: User): void => {
-            // member.socket.off('test', undefined);
-        });
         this.updater.removeAll();
     }
 
@@ -99,6 +108,38 @@ export class Room {
             playTime: this.playTime,
             owner: this.owner,
             status: this.status,
+        }
+    }
+
+    public getMember(socket: SocketIO.Socket): User {
+        let user: User;
+        this.members.forEach((member: User): void => {
+            if (member.id === socket.id) {
+                user = member;
+            }
+        });
+
+        return user;
+    }
+
+    public getMemberByID(id: string): User {
+        let user: User;
+        this.members.forEach((member: User): void => {
+            if (member.id === id) {
+                user = member;
+            }
+        });
+
+        return user;
+    }
+
+    private toggleReady(socket: SocketIO.Socket): void {
+        const member: User = this.getMember(socket);
+
+        if (member.status === USER_STATUS.READY) {
+            member.status = USER_STATUS.WAIT;
+        } else {
+            member.status = USER_STATUS.READY;
         }
     }
 };

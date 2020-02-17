@@ -7,10 +7,10 @@
       <img class="character_idle_image no_drag" src="../assets/character/1/idle.gif" />
     </div>
     <!-- <div class="status">{{user.status}}</div> -->
-    <button v-if="canFire" class="ban_button no_drag">X</button>
+    <button v-if="canFire" @click="ban(user.id)" class="ban_button no_drag">X</button>
     <div
       class="ready_bar no_drag"
-      :style="{'background':user.status==='Ready'?'mediumspringgreen':'lightcoral'}"
+      :style="{'background':user.status==='READY'?'mediumspringgreen':'lightcoral'}"
     >{{user.status}}</div>
     <!-- <button v-if="canFire">방장위임</button> -->
   </div>
@@ -28,6 +28,8 @@ export default class UserCard extends Vue {
   private isOwner!: boolean;
   @Prop()
   private canFire!: boolean;
+  @Prop()
+  private ban!: (banID: string) => void;
 }
 </script>
 

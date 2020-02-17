@@ -1,6 +1,6 @@
 <template>
   <div class="full_page" :class="{'unVisible':unVisible}">
-    <RoomTitle :title="roomData.name" :id="roomData.id"/>
+    <RoomTitle :title="roomData.name" :id="roomData.id" />
     <div class="user_slot">
       <UserCard
         v-for="(user, index) in roomData.members"
@@ -8,22 +8,27 @@
         :user="user"
         :isOwner="user.id === roomData.owner"
         :canFire="user.id !== gameClient.socket.id && roomData.owner === gameClient.socket.id"
+        :ban="ban"
       />
-      <EmptyUserCard v-for="(data,index) in emptyRoomData" :key="index"/>
+      <EmptyUserCard v-for="(data,index) in emptyRoomData" :key="index" />
     </div>
 
-    <RoomFooter/>
+    <RoomFooter :exit="exit" :gameClient="gameClient" />
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Watch, Prop, Vue } from 'vue-property-decorator';
-import GameClient from '../../../game/client/class/GameClient';
-import { RoomData, ROOM_STATUS, UserData } from '../../../game/union/interface/RoomData';
-import UserCard from './UserCard.vue';
-import EmptyUserCard from './EmptyUserCard.vue';
-import RoomTitle from './RoomTitle.vue';
-import RoomFooter from './RoomFooter.vue';
+import { Component, Watch, Prop, Vue } from "vue-property-decorator";
+import GameClient from "../../../game/client/class/GameClient";
+import {
+  RoomData,
+  ROOM_STATUS,
+  UserData,
+} from "../../../game/union/interface/RoomData";
+import UserCard from "./UserCard.vue";
+import EmptyUserCard from "./EmptyUserCard.vue";
+import RoomTitle from "./RoomTitle.vue";
+import RoomFooter from "./RoomFooter.vue";
 
 @Component({
   components: { UserCard, RoomTitle, RoomFooter, EmptyUserCard },
@@ -33,16 +38,20 @@ export default class Room extends Vue {
   private unVisible!: boolean;
   @Prop()
   private gameClient!: GameClient;
+  @Prop()
+  private exit!: () => void;
   private roomData: RoomData = {
-    id: 0, name: '',
-    members: [], maxMembers: 0,
+    id: 0,
+    name: "",
+    members: [],
+    maxMembers: 0,
     playTime: 0,
-    owner: '',
-    address: '',
+    owner: "",
+    address: "",
     status: ROOM_STATUS.WAIT,
   };
 
-  @Watch('unVisible')
+  @Watch("unVisible")
   private setClient(): void {
     if (!this.unVisible) {
       this.create();
@@ -52,25 +61,33 @@ export default class Room extends Vue {
   }
 
   private create(): void {
-    this.gameClient.socket.on('getRoomData', this.getRoomData.bind(this));
+    this.gameClient.socket.on("getRoomData", this.getRoomData.bind(this));
   }
 
   private destory(): void {
-    this.gameClient.socket.off('getRoomData');
+    this.gameClient.socket.off("getRoomData");
   }
 
   private getRoomData(roomData: RoomData): void {
-    Vue.set(this, 'roomData', roomData);
+    Vue.set(this, "roomData", roomData);
   }
 
   private get emptyRoomData(): number[] {
     const result: number[] = [];
 
-    for (let i = 0; i < this.roomData.maxMembers - this.roomData.members.length; i++) {
+    for (
+      let i = 0;
+      i < this.roomData.maxMembers - this.roomData.members.length;
+      i++
+    ) {
       result.push(i);
     }
 
     return result;
+  }
+
+  private ban(banID: string): void {
+    this.gameClient.socket.emit("ban", banID);
   }
 }
 </script>

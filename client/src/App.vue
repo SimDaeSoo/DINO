@@ -13,6 +13,7 @@
       v-if="visibleState('SELECTED_SERVER')"
       :unVisible="opacityState('SELECTED_SERVER')"
       :gameClient="gameClient"
+      :exit="exitRoom"
     />
     <GameCanvas v-if="visibleState('START_GAME')" :unVisible="opacityState('START_GAME')" />
     <notifications position="top left" group="notification" />
@@ -100,6 +101,11 @@ export default class App extends Vue {
       },
       disconnect: this.disconnect.bind(this),
     });
+  }
+
+  private exitRoom(): void {
+    this.gameClient.disconnect();
+    this.connectMaster();
   }
 
   private setServers(servers: SocketServerData[]): void {

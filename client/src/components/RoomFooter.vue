@@ -12,8 +12,8 @@
     </div>
 
     <div class="button_wrap">
-      <button class="exit_button half no_drag">Exit</button>
-      <button class="ready_button half no_drag">Ready</button>
+      <button @click="exit" class="exit_button half no_drag">Exit</button>
+      <button @click="toggleReady" class="ready_button half no_drag">Ready</button>
     </div>
   </div>
 </template>
@@ -21,11 +21,21 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import CharacterCard from "./CharacterCard.vue";
+import GameClient from "../../../game/client/class/GameClient";
 
 @Component({
   components: { CharacterCard }
 })
-export default class RoomFooter extends Vue {}
+export default class RoomFooter extends Vue {
+  @Prop()
+  private exit!: () => void;
+  @Prop()
+  private gameClient!: GameClient;
+
+  private toggleReady(): void {
+    this.gameClient.socket.emit("toggleReady");
+  }
+}
 </script>
 
 <style scoped>
