@@ -13,7 +13,12 @@
 
     <div class="button_wrap">
       <button @click="exit" class="exit_button half no_drag">Exit</button>
-      <button @click="toggleReady" class="ready_button half no_drag">Ready</button>
+      <button
+        @click="toggleReady"
+        class="ready_button half no_drag"
+        :style="{'background':user.status==='READY'?'lightcoral':'mediumspringgreen',
+        'color':user.status==='READY'?'darkred':'darkolivegreen'}"
+      >{{user.status==='READY'?'Wait':'Ready'}}</button>
     </div>
   </div>
 </template>
@@ -22,15 +27,18 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import CharacterCard from "./CharacterCard.vue";
 import GameClient from "../../../game/client/class/GameClient";
+import { UserData } from "../../../game/union/interface/RoomData";
 
 @Component({
-  components: { CharacterCard }
+  components: { CharacterCard },
 })
 export default class RoomFooter extends Vue {
   @Prop()
   private exit!: () => void;
   @Prop()
   private gameClient!: GameClient;
+  @Prop()
+  private user!: UserData;
 
   private toggleReady(): void {
     this.gameClient.socket.emit("toggleReady");
@@ -40,8 +48,8 @@ export default class RoomFooter extends Vue {
 
 <style scoped>
 .exit_button {
-  background: lightcoral;
-  color: darkred;
+  background: cornflowerblue;
+  color: darkslateblue;
   font-weight: 400;
 }
 .ready_button {

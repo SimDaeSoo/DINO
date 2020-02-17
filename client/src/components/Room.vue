@@ -13,7 +13,7 @@
       <EmptyUserCard v-for="(data,index) in emptyRoomData" :key="index" />
     </div>
 
-    <RoomFooter :exit="exit" :gameClient="gameClient" />
+    <RoomFooter :exit="exit" :gameClient="gameClient" :user="user" />
   </div>
 </template>
 

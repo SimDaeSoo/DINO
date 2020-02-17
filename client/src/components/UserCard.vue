@@ -10,7 +10,7 @@
     <button v-if="canFire" @click="ban(user.id)" class="ban_button no_drag">X</button>
     <div
       class="ready_bar no_drag"
-      :style="{'background':user.status==='READY'?'mediumspringgreen':'lightcoral'}"
+      :style="{'background':user.status==='READY'?'lightgreen':'lightcoral'}"
     >{{user.status}}</div>
     <!-- <button v-if="canFire">방장위임</button> -->
   </div>
