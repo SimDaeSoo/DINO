@@ -73,7 +73,7 @@ export default class CharacterCard extends Vue {}
   width: 190px;
   position: absolute;
   right: 10px;
-  top: 29px;
+  top: 30px;
 }
 
 .select_button {
