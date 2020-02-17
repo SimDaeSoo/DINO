@@ -41,7 +41,7 @@ export default class RoomTitle extends Vue {
 .room_title {
   width: 100%;
   height: 40px;
-  background: steelblue;
+  background: #282828;
   position: absolute;
   left: 0;
   right: 0;

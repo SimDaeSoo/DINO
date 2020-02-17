@@ -16,8 +16,7 @@
       <button
         @click="toggleReady"
         class="ready_button half no_drag"
-        :style="{'background':(user && user.status)==='READY'?'lightcoral':'mediumspringgreen',
-        'color':(user && user.status)==='READY'?'darkred':'darkolivegreen'}"
+        :style="{'background':(user && user.status)==='READY'?'#601010':'#104010'}"
       >{{(user && user.status)==='READY'?'Wait':'Ready'}}</button>
     </div>
   </div>
@@ -48,14 +47,13 @@ export default class RoomFooter extends Vue {
 
 <style scoped>
 .exit_button {
-  background: cornflowerblue;
-  color: darkslateblue;
+  background: #262626;
+  color: white;
   font-weight: 400;
 }
 .ready_button {
-  background: lightgreen;
   font-weight: 400;
-  color: darkolivegreen;
+  color: white;
 }
 .character_logo {
   position: absolute;
