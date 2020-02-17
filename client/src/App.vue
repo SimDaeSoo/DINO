@@ -48,8 +48,8 @@ export default class App extends Vue {
   }
 
   private connectMaster() {
-    // const masterIP: string = '13.209.124.232';
-    const masterIP: string = 'localhost';
+    const masterIP: string = '13.209.124.232';
+    // const masterIP: string = 'localhost';
     const address: string = `http://${masterIP}:3000`;
     this.gameClient.connect(address, {
       connect: this.connect.bind(this),
