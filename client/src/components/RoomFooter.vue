@@ -83,7 +83,7 @@ button {
 
 @media screen and (min-width: 769px) {
   .footer {
-    max-width: 1024px;
+    max-width: 769px;
   }
 }
 </style>

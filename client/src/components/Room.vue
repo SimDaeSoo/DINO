@@ -94,13 +94,4 @@ export default class Room extends Vue {
   opacity: 0;
   transition: opacity 0.8s ease-in;
 }
-
-@media screen and (min-width: 769px) {
-  .user_slot {
-    max-width: 1024px;
-  }
-  .footer {
-    max-width: 1024px;
-  }
-}
 </style>

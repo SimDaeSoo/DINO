@@ -51,10 +51,4 @@ export default class RoomTitle extends Vue {
   color: white;
   z-index: 1;
 }
-
-@media screen and (min-width: 769px) {
-  .room_title {
-    max-width: 1024px;
-  }
-}
 </style>

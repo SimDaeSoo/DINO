@@ -3,8 +3,11 @@
     <div class="character_portrait">
       <img class="character_idle_image no_drag" src="../assets/character/1/idle.gif" />
     </div>
-    <div class="character_name no_drag">마법사</div>
-    <div class="character_discription no_drag">아군을 방어하는 캐릭터 이다. 아군을 방어하는 캐릭터 이다.</div>
+    <div class="character_name no_drag">엘리</div>
+    <div class="character_discription no_drag">
+      귀여운 엘리
+      <br />별똥별로 광역 공격을 한다.
+    </div>
     <button class="select_button no_drag">
       <img class="select_icon no_drag" src="../assets/check.png" />
     </button>
@@ -23,7 +26,7 @@ export default class CharacterCard extends Vue {}
   height: 24px;
   width: 24px;
   position: absolute;
-  top: -3px;
+  top: -2px;
   left: 82px;
   border-radius: 12px;
 }
