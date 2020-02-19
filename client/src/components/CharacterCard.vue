@@ -10,7 +10,7 @@
     <div class="character_discription no_drag" v-html="character.description" />
     <button class="select_button no_drag" @click="changeCharacter(character.code)">
       <img v-if="selected" class="select_icon no_drag" src="../assets/check.png" />
-      <span v-else class="select_text">SELECT</span>
+      <span v-else class="select_text">Select</span>
     </button>
   </div>
 </template>
