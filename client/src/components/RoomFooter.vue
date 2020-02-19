@@ -1,6 +1,6 @@
 <template>
   <div class="footer">
-    <div class="character_list" v-if="(user && user.status)!=='READY'">
+    <div class="character_list" >
       <span class="character_logo">Character</span>
       <div class="swipe">
         <CharacterCard
@@ -8,6 +8,7 @@
           :key="character.code"
           :character="character"
           :changeCharacter="changeCharacter"
+          :disabled="user.character.code === character.code || (user && user.status)==='READY'"
         />
       </div>
     </div>
