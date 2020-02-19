@@ -8,7 +8,8 @@
           :key="character.code"
           :character="character"
           :changeCharacter="changeCharacter"
-          :disabled="user.character.code === character.code || (user && user.status)==='READY'"
+          :selected="user.character.code === character.code"
+          :disabled="(user && user.status)==='READY'"
         />
       </div>
     </div>

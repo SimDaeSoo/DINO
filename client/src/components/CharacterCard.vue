@@ -1,5 +1,5 @@
 <template>
-  <div class="swipe_card no_drag" :class="{'disabled':disabled}">
+  <div class="swipe_card no_drag" :class="{'disabled':!selected || disabled}">
     <div class="character_portrait">
       <img
         class="character_idle_image no_drag"
@@ -9,7 +9,8 @@
     <div class="character_name no_drag">{{character.name}}</div>
     <div class="character_discription no_drag" v-html="character.description" />
     <button class="select_button no_drag" @click="changeCharacter(character.code)">
-      <img class="select_icon no_drag" src="../assets/check.png" />
+      <img v-if="selected" class="select_icon no_drag" src="../assets/check.png" />
+      <span v-else class="select_text">SELECT</span>
     </button>
   </div>
 </template>
@@ -24,6 +25,8 @@ export default class CharacterCard extends Vue {
   private character!: CharacterData;
   @Prop()
   private disabled!: boolean;
+  @Prop()
+  private selected!: boolean;
 
   @Prop()
   private changeCharacter!: (code: number) => void;
@@ -31,6 +34,9 @@ export default class CharacterCard extends Vue {
 </script>
 
 <style scoped>
+.select_text {
+  font-weight: 500;
+}
 .disabled {
   filter: brightness(0.7);
 }

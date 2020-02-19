@@ -60,7 +60,7 @@ export class Room {
     }
 
     private initialize(): void {
-        this.updater.on('sendRoomData', 300, (): void => {
+        this.updater.on('sendRoomData', 200, (): void => {
             this.io.to(this.options.name).emit('getRoomData', this.roomData);
         });
     }
