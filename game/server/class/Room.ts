@@ -1,6 +1,7 @@
 import * as SocketIO from 'socket.io';
 import Updater from '../../union/class/Updater';
 import { ROOM_STATUS, USER_STATUS, RoomData, UserData } from '../../union/interface/RoomData';
+import CharacterData from '../../union/data/character';
 export interface RoomOptions {
     id?: number;
     name: string;
@@ -8,7 +9,7 @@ export interface RoomOptions {
     password?: string;
 }
 
-interface User { id: string, socket: SocketIO.Socket, displayName: string, status: USER_STATUS };
+interface User { id: string, socket: SocketIO.Socket, displayName: string, status: USER_STATUS, characterCode: number };
 
 export class Room {
     public members: Array<User> = [];
@@ -38,6 +39,7 @@ export class Room {
             socket: socket,
             displayName: displayName,
             status: USER_STATUS.WAIT,
+            characterCode: 1,
         });
         this.initializeSocket(socket);
     }
@@ -66,6 +68,9 @@ export class Room {
     private initializeSocket(socket: SocketIO.Socket): void {
         socket.on('toggleReady', (): void => {
             this.toggleReady(socket);
+        });
+        socket.on('changeCharacter', (code: number): void => {
+            this.changeCharacter(socket, code);
         });
         socket.on('ban', (banUserID: string): void => {
             if (socket.id === this.owner) {
@@ -97,6 +102,7 @@ export class Room {
                 id: member.id,
                 displayName: member.displayName,
                 status: member.status,
+                character: CharacterData[member.characterCode],
             };
         });
 
@@ -141,5 +147,10 @@ export class Room {
         } else {
             member.status = USER_STATUS.READY;
         }
+    }
+
+    private changeCharacter(socket: SocketIO.Socket, code: number): void {
+        const member: User = this.getMember(socket);
+        member.characterCode = code;
     }
 };

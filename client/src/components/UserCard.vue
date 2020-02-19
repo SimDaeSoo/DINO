@@ -4,15 +4,16 @@
     <div class="blank no_drag">blank</div>
     <div class="display_name no_drag">{{user.displayName}}</div>
     <div class="character_preview no_drag">
-      <img class="character_idle_image no_drag" src="../assets/character/1/idle.gif" />
+      <img
+        class="character_idle_image no_drag"
+        :src="'./character/'+user.character.code+'/'+user.character.preview"
+      />
     </div>
-    <!-- <div class="status">{{user.status}}</div> -->
     <button v-if="canFire" @click="ban(user.id)" class="ban_button no_drag">X</button>
     <div
       class="ready_bar no_drag"
       :style="{'background':user.status==='READY'?'lightgreen':'lightcoral'}"
     >{{user.status}}</div>
-    <!-- <button v-if="canFire">방장위임</button> -->
   </div>
 </template>
 

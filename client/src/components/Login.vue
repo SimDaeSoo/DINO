@@ -1,7 +1,7 @@
 <template>
   <div class="login_page">
     <div class="login-form" :class="{'unVisible': unVisible}">
-      <h1 class="no_drag">Cypers</h1>
+      <h1 class="no_drag">DINO</h1>
       <div class="form-field no_drag">
         <input
           type="text"

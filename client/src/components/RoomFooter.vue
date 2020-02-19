@@ -3,11 +3,12 @@
     <div class="character_list">
       <span class="character_logo">Character</span>
       <div class="swipe">
-        <CharacterCard />
-        <CharacterCard />
-        <CharacterCard />
-        <CharacterCard />
-        <CharacterCard />
+        <CharacterCard
+          v-for="(character) in characters"
+          :key="character.code"
+          :character="character"
+          :changeCharacter="changeCharacter"
+        />
       </div>
     </div>
 
@@ -27,6 +28,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import CharacterCard from "./CharacterCard.vue";
 import GameClient from "../../../game/client/class/GameClient";
 import { UserData } from "../../../game/union/interface/RoomData";
+import CharacterData from "../../../game/union/data/character";
 
 @Component({
   components: { CharacterCard },
@@ -38,9 +40,14 @@ export default class RoomFooter extends Vue {
   private gameClient!: GameClient;
   @Prop()
   private user!: UserData;
+  @Prop()
+  private characters!: CharacterData[];
 
   private toggleReady(): void {
     this.gameClient.socket.emit("toggleReady");
+  }
+  private changeCharacter(code: string): void {
+    this.gameClient.socket.emit("changeCharacter", code);
   }
 }
 </script>

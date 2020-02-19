@@ -1,14 +1,14 @@
 <template>
   <div class="swipe_card no_drag">
     <div class="character_portrait">
-      <img class="character_idle_image no_drag" src="../assets/character/1/idle.gif" />
+      <img
+        class="character_idle_image no_drag"
+        :src="'./character/'+character.code+'/'+character.preview"
+      />
     </div>
-    <div class="character_name no_drag">엘리</div>
-    <div class="character_discription no_drag">
-      귀여운 엘리
-      <br />별똥별로 광역 공격을 한다.
-    </div>
-    <button class="select_button no_drag">
+    <div class="character_name no_drag">{{character.name}}</div>
+    <div class="character_discription no_drag" v-html="character.description" />
+    <button class="select_button no_drag" @click="changeCharacter(character.code)">
       <img class="select_icon no_drag" src="../assets/check.png" />
     </button>
   </div>
@@ -16,9 +16,16 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
+import CharacterData from "../../../game/union/data/character";
 
 @Component
-export default class CharacterCard extends Vue {}
+export default class CharacterCard extends Vue {
+  @Prop()
+  private character!: CharacterData;
+
+  @Prop()
+  private changeCharacter!: (code: number) => void;
+}
 </script>
 
 <style scoped>

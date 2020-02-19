@@ -13,7 +13,7 @@
       <EmptyUserCard v-for="(data,index) in emptyRoomData" :key="index" />
     </div>
 
-    <RoomFooter :exit="exit" :gameClient="gameClient" :user="myUserData" />
+    <RoomFooter :exit="exit" :gameClient="gameClient" :user="myUserData" :characters="characters" />
   </div>
 </template>
 
@@ -24,11 +24,13 @@ import {
   RoomData,
   ROOM_STATUS,
   UserData,
+  CharacterData,
 } from "../../../game/union/interface/RoomData";
 import UserCard from "./UserCard.vue";
 import EmptyUserCard from "./EmptyUserCard.vue";
 import RoomTitle from "./RoomTitle.vue";
 import RoomFooter from "./RoomFooter.vue";
+import Characters from "../../../game/union/data/character";
 
 @Component({
   components: { UserCard, RoomTitle, RoomFooter, EmptyUserCard },
@@ -100,6 +102,16 @@ export default class Room extends Vue {
 
   private ban(banID: string): void {
     this.gameClient.socket.emit("ban", banID);
+  }
+
+  private get characters(): CharacterData[] {
+    const result: CharacterData[] = [];
+
+    for (const key of Object.keys(Characters)) {
+      result.push(Characters[key]);
+    }
+
+    return result;
   }
 }
 </script>

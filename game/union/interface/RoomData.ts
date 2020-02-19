@@ -1,7 +1,15 @@
+export interface CharacterData {
+    code: number;
+    name: string;
+    description: string;
+    preview: string;
+}
+
 export interface UserData {
     id: string;
     displayName: string;
     status: USER_STATUS;
+    character: CharacterData;
 }
 export interface RoomData {
     id: number,
