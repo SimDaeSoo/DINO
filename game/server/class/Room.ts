@@ -151,6 +151,8 @@ export class Room {
 
     private changeCharacter(socket: SocketIO.Socket, code: number): void {
         const member: User = this.getMember(socket);
-        member.characterCode = code;
+        if (member.status !== USER_STATUS.READY) {
+            member.characterCode = code;
+        }
     }
 };

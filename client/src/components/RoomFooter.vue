@@ -1,6 +1,6 @@
 <template>
   <div class="footer">
-    <div class="character_list">
+    <div class="character_list" v-if="(user && user.status)!=='READY'">
       <span class="character_logo">Character</span>
       <div class="swipe">
         <CharacterCard
