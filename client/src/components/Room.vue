@@ -59,6 +59,7 @@ export default class Room extends Vue {
     owner: "",
     address: "",
     status: ROOM_STATUS.WAIT,
+    seed: '',
   };
 
   @Watch("unVisible")

@@ -2,31 +2,32 @@
   <div class="card">
     <dl>
       <dt class="id">
-        <img class="flag_icon no_drag" src="../assets/flag.png">
+        <img class="flag_icon no_drag" src="../assets/flag.png" />
         <span class="id_string no_drag">{{room.id}}</span>
       </dt>
       <dt class="title no_drag">{{room.name}}</dt>
       <dd>
         <span class="left">
-          <img class="user_icon no_drag" src="../assets/user.png">
+          <img class="user_icon no_drag" src="../assets/user.png" />
           <span class="user_status no_drag">{{room.members.length}} / {{room.maxMembers}}</span>
         </span>
         <span></span>
         <span class="right">
           <div class="clock">
-            <img class="clock_icon no_drag" src="../assets/clock.png">
+            <img class="clock_icon no_drag" src="../assets/clock.png" />
             <span class="clock_status no_drag">{{timestamp}}</span>
           </div>
         </span>
       </dd>
     </dl>
-    <button class="join no_drag" @click="tryJoin">Join</button>
+    <button v-if="room.status === 'WAIT'" class="join no_drag" @click="tryJoin">Join</button>
+    <button v-else class="playing no_drag" disabled>Started</button>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import { RoomData } from '../../../game/union/interface/RoomData';
+import { Component, Prop, Vue } from "vue-property-decorator";
+import { RoomData } from "../../../game/union/interface/RoomData";
 
 @Component
 export default class RoomCard extends Vue {
@@ -40,19 +41,19 @@ export default class RoomCard extends Vue {
   private get timestamp(): string {
     const playTime: number = Number(this.room.playTime);
     let seconds: string = (Math.floor(playTime / 1000) % 60).toString();
-    let minutes: string = (Math.floor((playTime / 1000) / 60) % 60).toString();
-    let hours: string = (Math.floor(((playTime / 1000) / 60) / 60) % 24).toString();
+    let minutes: string = (Math.floor(playTime / 1000 / 60) % 60).toString();
+    let hours: string = (Math.floor(playTime / 1000 / 60 / 60) % 24).toString();
 
     if (Number(minutes) < 10) {
-      minutes = '0' + minutes;
+      minutes = "0" + minutes;
     }
 
     if (Number(seconds) < 10) {
-      seconds = '0' + seconds;
+      seconds = "0" + seconds;
     }
 
     if (Number(hours) < 10) {
-      hours = '0' + hours;
+      hours = "0" + hours;
     }
 
     return `${hours}:${minutes}:${seconds}`;
@@ -157,5 +158,13 @@ button.join {
   font-size: 1.2em;
   border-radius: 4px;
   background: #ffffff;
+}
+
+button.playing {
+  width: 90%;
+  font-size: 1.2em;
+  border-radius: 4px;
+  background: #242424;
+  color: darkgray;
 }
 </style>

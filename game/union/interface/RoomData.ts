@@ -12,18 +12,20 @@ export interface UserData {
     character: CharacterData;
 }
 export interface RoomData {
-    id: number,
-    name: string,
-    members: Array<UserData>,
-    maxMembers: number,
-    playTime: number,
-    owner: string,
-    address?: string,
-    status: ROOM_STATUS,
+    id: number;
+    name: string;
+    members: Array<UserData>;
+    maxMembers: number;
+    playTime: number;
+    owner: string;
+    address?: string;
+    status: ROOM_STATUS;
+    seed: string;
 }
 
 export const enum ROOM_STATUS {
     WAIT = 'WAIT',
+    START = 'START',
 }
 
 export const enum USER_STATUS {

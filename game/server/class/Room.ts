@@ -21,12 +21,12 @@ export class Room {
     public get id(): number { return this.options.id; }
     public get name(): string { return this.options.name; }
     public get maxMembers(): number { return this.options.maxMembers; }
-    public get joinable(): boolean { return this.members.length < this.options.maxMembers && !this.isStarted; }
+    public get joinable(): boolean { return this.members.length < this.options.maxMembers && this.status === ROOM_STATUS.WAIT; }
     private io: SocketIO.Server;
     private updater: Updater = new Updater();
+    private seed: string = crypto.randomBytes(32).toString('hex');
 
     private options!: RoomOptions;
-    private isStarted!: boolean;
 
     constructor(options?: RoomOptions) {
         let defaultOptions: RoomOptions = { id: 0, name: '', maxMembers: 6, password: '' };
@@ -118,6 +118,7 @@ export class Room {
             playTime: this.playTime,
             owner: this.owner,
             status: this.status,
+            seed: this.seed,
         }
     }
 
@@ -150,6 +151,10 @@ export class Room {
         });
         this.io.to(`${this.options.id}`).emit('getRoomData', this.roomData);
         this.io.to(`${this.options.id}`).emit('startGame');
+        this.status = ROOM_STATUS.START;
+        this.updater.on('playtime', 1000, (): void => {
+            this.playTime += 1000;
+        });
     }
 
     private startCount: number = 5;
