@@ -20,16 +20,12 @@ export default class Counter extends Vue {
   z-index: 5;
   left: calc(50% - 50px);
   top: calc(50% - 50px);
-  font-size: 7em;
+  font-size: 5em;
   width: 100px;
   height: 100px;
   text-align: center;
   font-weight: 600;
   line-height: 90px;
-  border-radius: 50px;
-  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16),
-    0 3px 6px rgba(0, 0, 0, 0.23);
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   opacity: 0;
   transform: scale(4);
 }
