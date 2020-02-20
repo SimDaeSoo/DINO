@@ -9,6 +9,7 @@ import Dictionary from '../../union/interface/Dictionary';
 import SocketServerData from '../../union/interface/SocketServerData';
 import Updater from '../../union/class/Updater';
 import Network from '../../union/class/Network';
+import * as exec from 'child_process';
 
 class MasterServer {
     private IP!: string;
@@ -47,6 +48,7 @@ class MasterServer {
 
     private routing(): void {
         this.application.post('/apply', this.applyServer.bind(this));
+        this.application.post('/hook', this.building.bind(this));
     }
 
     public open(port: number): void {
@@ -129,6 +131,11 @@ class MasterServer {
         socketData.updated = Date.now();
         this.socketServerDictionary[socketData.address] = socketData;
         response.json({ success: true });
+    }
+
+    private building(request: Request, response: Response, next: NextFunction): void {
+        exec.spawnSync('sh', ['shell/hook.sh'], { stdio: 'inherit' });
+        response.send(true);
     }
 }
 
