@@ -89,7 +89,7 @@ export default class App extends Vue {
     this.gameClient.createRoom(`${this.displayName}님의 게임`);
   }
 
-  private join(address: string, room: string): void {
+  private join(address: string, id: number): void {
     if (this.state.next === MAIN_STATE.SELECTED_SERVER) {
       return;
     }
@@ -97,7 +97,7 @@ export default class App extends Vue {
     this.gameClient.connect(address, {
       connect: (): void => {
         this.changeState(MAIN_STATE.SELECTED_SERVER);
-        this.gameClient.join(room);
+        this.gameClient.join(id);
       },
       disconnect: this.disconnect.bind(this),
     });

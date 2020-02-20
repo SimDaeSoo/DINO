@@ -20,7 +20,7 @@ export default class SelectServer extends Vue {
   @Prop()
   private rooms!: RoomData[];
   @Prop()
-  private join!: (addres: string, room: string) => void;
+  private join!: (addres: string, id: number) => void;
   @Prop()
   private create!: () => void;
   private lastDate!: number;

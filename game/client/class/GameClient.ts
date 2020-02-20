@@ -42,12 +42,12 @@ export default class GameClient {
         this.socket.emit('createRoom', roomName);
     }
 
-    public tryJoin(roomData: { address: string, roomName: string }): void {
-        if (this.callback.join) this.callback.join(roomData.address, roomData.roomName);
+    public tryJoin(roomData: { address: string, id: number }): void {
+        if (this.callback.join) this.callback.join(roomData.address, roomData.id);
     }
 
-    public join(roomName: string): void {
-        this.socket.emit('join', { roomName, displayName: this.displayName });
+    public join(id: number): void {
+        this.socket.emit('join', { id, displayName: this.displayName });
     }
 
     private connected(): void {

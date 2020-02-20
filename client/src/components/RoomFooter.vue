@@ -1,6 +1,6 @@
 <template>
   <div class="footer">
-    <div class="character_list" >
+    <div class="character_list">
       <span class="character_logo">Character</span>
       <div class="swipe">
         <CharacterCard
@@ -8,7 +8,7 @@
           :key="character.code"
           :character="character"
           :changeCharacter="changeCharacter"
-          :selected="user.character.code === character.code"
+          :selected="user?(user.character.code === character.code):false"
           :disabled="(user && user.status)==='READY'"
         />
       </div>

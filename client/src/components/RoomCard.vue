@@ -35,7 +35,7 @@ export default class RoomCard extends Vue {
   @Prop()
   private create?: boolean;
   @Prop()
-  private join!: (addres: string, room: string) => void;
+  private join!: (addres: string, id: number) => void;
 
   private get timestamp(): string {
     const playTime: number = Number(this.room.playTime);
@@ -61,7 +61,7 @@ export default class RoomCard extends Vue {
   private tryJoin(): void {
     if (this.room.members.length < this.room.maxMembers) {
       if (this.room.address) {
-        this.join(this.room.address, this.room.name);
+        this.join(this.room.address, this.room.id);
       }
     }
   }

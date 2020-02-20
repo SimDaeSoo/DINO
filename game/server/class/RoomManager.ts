@@ -3,7 +3,7 @@ import * as socketIO from 'socket.io';
 import Dictionary from '../../union/interface/Dictionary';
 
 export class RoomManager {
-    public userDict: Dictionary<string> = {};
+    public userDict: Dictionary<number> = {};
     public rooms: Array<Room> = [];
     public io: SocketIO.Server;
 
@@ -24,16 +24,16 @@ export class RoomManager {
         }
     }
 
-    public joinRoom(socket: socketIO.Socket, roomName: string, displayName: string): boolean {
+    public joinRoom(socket: socketIO.Socket, id: number, displayName: string): boolean {
         let result: boolean = false;
 
         for (let key in this.rooms) {
-            if (this.rooms[key].name === roomName && this.rooms[key].joinable) {
+            if (this.rooms[key].id === id && this.rooms[key].joinable) {
                 result = true;
-                socket.join(this.rooms[key].name);
+                socket.join(`${this.rooms[key].id}`);
                 this.rooms[key].join(socket, displayName);
 
-                this.userDict[socket.id] = roomName;
+                this.userDict[socket.id] = id;
 
                 break;
             }
@@ -42,13 +42,13 @@ export class RoomManager {
         return result;
     }
 
-    public leaveRoom(socket: socketIO.Socket, roomName: string): boolean {
+    public leaveRoom(socket: socketIO.Socket, id: number): boolean {
         let result: boolean = false;
 
         for (let key in this.rooms) {
-            if (this.rooms[key].name === roomName) {
+            if (this.rooms[key].id === id) {
                 result = true;
-                socket.leave(this.rooms[key].name);
+                socket.leave(`${this.rooms[key].id}`);
                 this.rooms[key].leave(socket.id);
 
                 delete this.userDict[socket.id];

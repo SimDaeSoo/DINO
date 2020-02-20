@@ -53,7 +53,7 @@ class GameServer {
         response.json({
             success: true,
             address: `http://${this.IP}:${this.port}`,
-            roomName: newRoom.name,
+            id: newRoom.id,
         });
     }
 
@@ -99,8 +99,8 @@ class GameServer {
         }
     }
 
-    private join(socket: SocketIO.Socket, roomName: string, displayName: string): void {
-        const joinSuccess: boolean = this.roomManager.joinRoom(socket, roomName, displayName);
+    private join(socket: SocketIO.Socket, id: number, displayName: string): void {
+        const joinSuccess: boolean = this.roomManager.joinRoom(socket, id, displayName);
         if (!joinSuccess) {
             socket.disconnect(true);
         }
@@ -109,7 +109,7 @@ class GameServer {
     private connection(socket: SocketIO.Socket): void {
         console.log(socket.id, 'connected');
         socket.on('disconnect', (): void => { this.disconnect(socket); });
-        socket.on('join', (data: { roomName: string, displayName: string }): void => { this.join(socket, data.roomName, data.displayName); });
+        socket.on('join', (data: { id: number, displayName: string }): void => { this.join(socket, data.id, data.displayName); });
     }
 
     private disconnect(socket: SocketIO.Socket): void {

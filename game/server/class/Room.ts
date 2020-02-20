@@ -2,6 +2,8 @@ import * as SocketIO from 'socket.io';
 import Updater from '../../union/class/Updater';
 import { ROOM_STATUS, USER_STATUS, RoomData, UserData } from '../../union/interface/RoomData';
 import CharacterData from '../../union/data/character';
+import * as crypto from 'crypto';
+
 export interface RoomOptions {
     id?: number;
     name: string;
@@ -61,7 +63,7 @@ export class Room {
 
     private initialize(): void {
         this.updater.on('sendRoomData', 200, (): void => {
-            this.io.to(this.options.name).emit('getRoomData', this.roomData);
+            this.io.to(`${this.options.id}`).emit('getRoomData', this.roomData);
         });
     }
 
