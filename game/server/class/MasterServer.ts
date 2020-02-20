@@ -133,11 +133,14 @@ class MasterServer {
         response.json({ success: true });
     }
 
-    private async building(request: Request, response: Response, next: NextFunction): Promise<void> {
-        console.log(`push event detected : ${new Date()}`);
-        console.log(`start building`);
-        await exec.spawnSync('sh', ['shell/hook.sh'], { stdio: 'inherit' });
-        console.log(`build done : ${new Date()}`);
+    private building(request: Request, response: Response, next: NextFunction): void {
+        const build = async (): Promise<void> => {
+            console.log(`push event detected : ${new Date()}`);
+            console.log(`start building`);
+            exec.spawnSync('sh', ['shell/hook.sh'], { stdio: 'inherit' });
+            console.log(`build done : ${new Date()}`);
+        }
+        build();
         response.send(true);
     }
 }
