@@ -47,10 +47,6 @@ export default class App extends Vue {
     this.gameClient = new GameClient();
     this.connectMaster();
     this.changeState(MAIN_STATE.LOADING);
-    window.addEventListener('resize', () => {
-      window.document.body.focus();
-      window.document.body.style.zoom = '100%';
-    });
   }
 
   private connectMaster() {
