@@ -1,5 +1,6 @@
 <template>
   <div class="swipe_card no_drag" :class="{'disabled':!selected}">
+    <img class="info_icon no_drag" src="../assets/info_icon.png" />
     <div class="character_portrait">
       <img
         class="character_idle_image no_drag"
@@ -32,6 +33,14 @@ export default class CharacterCard extends Vue {
 </script>
 
 <style scoped>
+.info_icon {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  right: 1px;
+  top: 0;
+  z-index: 2;
+}
 .select_text {
   font-weight: 500;
   color: darkgray;
