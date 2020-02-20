@@ -178,6 +178,7 @@ export class Room {
             this.io.to(`${this.options.id}`).emit('startCounting', this.startCount);
             setTimeout((): void => {
                 this.counting = false;
+                if (!this.isAllReady) return;
                 if (this.startCount > 1) {
                     this.startCounting();
                 } else {
