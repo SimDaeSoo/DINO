@@ -19,7 +19,6 @@ export default class GameClient {
         this.socket.on('connect', this.connected.bind(this));
         this.socket.on('join', this.tryJoin.bind(this));
         this.socket.on('disconnect', this.disconnected.bind(this));
-        this.socket.off('test');
         return this.socket;
     }
 

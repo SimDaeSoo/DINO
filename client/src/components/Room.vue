@@ -1,7 +1,9 @@
 <template>
   <div class="full_page" :class="{'unVisible':unVisible}">
+    <Counter v-if="showCount" :count="count" :countDown="countDown"/>
+
     <RoomTitle :title="roomData.name" :id="roomData.id" />
-    <div class="user_slot">
+    <div class="user_slot" :class="{'deleted_footer': (myUserData && myUserData.status === 'READY')}">
       <UserCard
         v-for="(user, index) in roomData.members"
         :key="`${user.id}index${index}`"
@@ -26,6 +28,7 @@ import {
   UserData,
   CharacterData,
 } from "../../../game/union/interface/RoomData";
+import Counter from "./Counter.vue";
 import UserCard from "./UserCard.vue";
 import EmptyUserCard from "./EmptyUserCard.vue";
 import RoomTitle from "./RoomTitle.vue";
@@ -33,7 +36,7 @@ import RoomFooter from "./RoomFooter.vue";
 import Characters from "../../../game/union/data/character";
 
 @Component({
-  components: { UserCard, RoomTitle, RoomFooter, EmptyUserCard },
+  components: { UserCard, RoomTitle, RoomFooter, EmptyUserCard, Counter },
 })
 export default class Room extends Vue {
   @Prop()
@@ -42,6 +45,11 @@ export default class Room extends Vue {
   private gameClient!: GameClient;
   @Prop()
   private exit!: () => void;
+  @Prop()
+  private gameStart!: () => void;
+  private count: number = 0;
+  private showCount: boolean = false;
+  private countDown: boolean = false;
   private roomData: RoomData = {
     id: 0,
     name: "",
@@ -74,12 +82,25 @@ export default class Room extends Vue {
     return user;
   }
 
+  private counting(index: number): void {
+    this.count = index;
+    this.showCount = true;
+    setTimeout((): void => { this.countDown = true; }, 100);
+    setTimeout((): void => {
+      this.countDown = this.showCount = false;
+    }, 800);
+  }
+
   private create(): void {
     this.gameClient.socket.on("getRoomData", this.getRoomData.bind(this));
+    this.gameClient.socket.on("startCounting", this.counting.bind(this));
+    this.gameClient.socket.on("startGame", this.start.bind(this));
   }
 
   private destory(): void {
     this.gameClient.socket.off("getRoomData");
+    this.gameClient.socket.off("startCounting");
+    this.gameClient.socket.off("startGame");
   }
 
   private getRoomData(roomData: RoomData): void {
@@ -113,6 +134,11 @@ export default class Room extends Vue {
 
     return result;
   }
+
+  private start(): void {
+    this.destory();
+    this.gameStart();
+  }
 }
 </script>
 
@@ -122,6 +148,9 @@ export default class Room extends Vue {
   overflow-y: auto;
   margin-top: 40px;
   max-height: calc(100% - 196px);
+}
+.user_slot.deleted_footer {
+  max-height: calc(100% - 76px);
 }
 
 .full_page {

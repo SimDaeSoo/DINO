@@ -83,7 +83,9 @@ export class Room {
     }
 
     private destroySocket(socket: SocketIO.Socket): void {
-        socket.removeAllListeners();
+        socket.removeAllListeners('toggleReady');
+        socket.removeAllListeners('changeCharacter');
+        socket.removeAllListeners('ban');
     }
 
     public destroy(): void {
@@ -141,6 +143,17 @@ export class Room {
         return user;
     }
 
+    private gameStart(): void {
+        this.updater.removeAll();
+        this.members.forEach((member: User): void => {
+            this.destroySocket(member.socket);
+        });
+        this.io.to(`${this.options.id}`).emit('getRoomData', this.roomData);
+        this.io.to(`${this.options.id}`).emit('startGame');
+    }
+
+    private startCount: number = 5;
+    private counting: boolean = false;
     private toggleReady(socket: SocketIO.Socket): void {
         const member: User = this.getMember(socket);
 
@@ -149,6 +162,33 @@ export class Room {
         } else {
             member.status = USER_STATUS.READY;
         }
+
+        this.startCount = 6;
+        this.startCounting();
+    }
+    private startCounting(): void {
+        if (this.isAllReady && !this.counting) {
+            this.startCount--;
+            this.counting = true;
+            this.io.to(`${this.options.id}`).emit('startCounting', this.startCount);
+            setTimeout((): void => {
+                this.counting = false;
+                if (this.startCount > 1) {
+                    this.startCounting();
+                } else {
+                    this.gameStart();
+                }
+            }, 1000);
+        }
+    }
+    private get isAllReady(): boolean {
+        let result: boolean = true;
+
+        for (let member of this.members) {
+            result = result && member.status === USER_STATUS.READY;
+        }
+
+        return result;
     }
 
     private changeCharacter(socket: SocketIO.Socket, code: number): void {

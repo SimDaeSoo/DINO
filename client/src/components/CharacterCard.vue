@@ -1,5 +1,5 @@
 <template>
-  <div class="swipe_card no_drag" :class="{'disabled':!selected || disabled}">
+  <div class="swipe_card no_drag" :class="{'disabled':!selected}">
     <div class="character_portrait">
       <img
         class="character_idle_image no_drag"
@@ -23,8 +23,6 @@ import CharacterData from "../../../game/union/data/character";
 export default class CharacterCard extends Vue {
   @Prop()
   private character!: CharacterData;
-  @Prop()
-  private disabled!: boolean;
   @Prop()
   private selected!: boolean;
 

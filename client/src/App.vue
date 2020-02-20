@@ -14,8 +14,9 @@
       :unVisible="opacityState('SELECTED_SERVER')"
       :gameClient="gameClient"
       :exit="exitRoom"
+      :gameStart="gameStart"
     />
-    <GameCanvas v-if="visibleState('START_GAME')" :unVisible="opacityState('START_GAME')" />
+    <GameCanvas v-if="visibleState('START_GAME')" :unVisible="opacityState('START_GAME')" :gameClient="gameClient"/>
     <notifications position="top left" group="notification" />
   </div>
 </template>
@@ -138,6 +139,10 @@ export default class App extends Vue {
     return this.servers.reduce((acc: RoomData[], current: SocketServerData): RoomData[] => {
       return acc.concat(current.rooms);
     }, []);
+  }
+
+  private gameStart(): void {
+      this.changeState(MAIN_STATE.START_GAME);
   }
 }
 </script>
