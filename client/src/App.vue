@@ -45,13 +45,12 @@ export default class App extends Vue {
   private displayName: string = '';
   private showResizeContainer: boolean = false;
   private resizeDetect(): void {
-    this.showResizeContainer = true;
     this.$notify({
-      group: 'notification', title: 'Resize', type: 'warning',
-      text: `resize detected`,
+      group: 'notification', title: 'Resize',
       duration: 2000,
     });
-    setTimeout(() => { this.showResizeContainer = false; }, 1000);
+    setTimeout(() => { this.showResizeContainer = true; }, 800);
+    setTimeout(() => { this.showResizeContainer = false; }, 1600);
   }
 
   private mounted() {
