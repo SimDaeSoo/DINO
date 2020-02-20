@@ -17,6 +17,7 @@
       :gameStart="gameStart"
     />
     <GameCanvas v-if="visibleState('START_GAME')" :unVisible="opacityState('START_GAME')" :gameClient="gameClient"/>
+    <div class="resize_container" v-if="showResizeContainer"></div>
     <notifications position="top left" group="notification" />
   </div>
 </template>
@@ -42,11 +43,26 @@ export default class App extends Vue {
   private gameClient!: GameClient;
   private servers: SocketServerData[] = [];
   private displayName: string = '';
+  private showResizeContainer: boolean = false;
+  private resizeDetect(): void {
+    this.showResizeContainer = true;
+    this.$notify({
+      group: 'notification', title: 'Resize', type: 'warning',
+      text: `resize detected`,
+      duration: 2000,
+    });
+    setTimeout(() => { this.showResizeContainer = false; }, 1000);
+  }
 
   private mounted() {
     this.gameClient = new GameClient();
     this.connectMaster();
     this.changeState(MAIN_STATE.LOADING);
+    window.addEventListener('resize', this.resizeDetect);
+  }
+
+  private beforeDestroyed() {
+    window.removeEventListener('resize', this.resizeDetect);
   }
 
   private connectMaster() {
@@ -156,5 +172,10 @@ export default class App extends Vue {
     #3c4b57 0%,
     #1c262b 100%
   );
+}
+
+.resize_container {
+  width: 100%;
+  height: 100%;
 }
 </style>
