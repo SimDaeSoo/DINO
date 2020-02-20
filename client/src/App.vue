@@ -49,8 +49,8 @@ export default class App extends Vue {
       group: 'notification', title: 'Resize',
       duration: 2000,
     });
-    setTimeout(() => { this.showResizeContainer = true; }, 800);
-    setTimeout(() => { this.showResizeContainer = false; }, 1600);
+    setTimeout(() => { this.showResizeContainer = true; }, 300);
+    setTimeout(() => { this.showResizeContainer = false; }, 600);
   }
 
   private mounted() {
