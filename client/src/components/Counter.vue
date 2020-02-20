@@ -18,10 +18,10 @@ export default class Counter extends Vue {
 .count_down {
   position: absolute;
   z-index: 5;
-  left: calc(50% - 50px);
+  left: calc(50% - 150px);
   top: calc(50% - 50px);
   font-size: 5em;
-  width: 100px;
+  width: 300px;
   height: 100px;
   text-align: center;
   font-weight: 600;
