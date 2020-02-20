@@ -16,6 +16,7 @@ export default class Counter extends Vue {
 
 <style scoped>
 .count_down {
+  font-family: sans-serif;
   position: absolute;
   z-index: 5;
   left: calc(50% - 150px);
@@ -27,7 +28,7 @@ export default class Counter extends Vue {
   font-weight: 600;
   line-height: 90px;
   opacity: 0;
-  transform: scale(4);
+  transform: scale(5);
 }
 
 .count_down.hide {
