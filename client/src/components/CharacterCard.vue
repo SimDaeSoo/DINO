@@ -36,6 +36,7 @@ export default class CharacterCard extends Vue {
 <style scoped>
 .select_text {
   font-weight: 500;
+  color: darkgray;
 }
 .disabled {
   filter: brightness(0.7);
