@@ -28,7 +28,6 @@ export default class GameRenderer {
         this.app = new PIXI.Application({
             width: window.innerWidth,
             height: window.innerHeight,
-            // backgroundColor: 0x7296D5,
             backgroundColor: 0xFFFFFF,
             autoStart: false,
             antialias: false,

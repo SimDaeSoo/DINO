@@ -1,10 +1,11 @@
 <template>
-  <div class="full_page" :class="{'unVisible':unVisible}">this is a game canvas</div>
+  <div class="full_page" :class="{'unVisible':unVisible}" ref="canvas"></div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Watch, Vue } from "vue-property-decorator";
 import GameClient from "../../../game/client/class/GameClient";
+import GameRenderer from "../../../game/client/class/GameRenderer";
 
 @Component
 export default class GameCanvas extends Vue {
@@ -12,6 +13,7 @@ export default class GameCanvas extends Vue {
   private unVisible!: boolean;
   @Prop()
   private gameClient!: GameClient;
+  private gameRenderer!: GameRenderer;
 
   @Watch("unVisible")
   private setClient(): void {
@@ -23,9 +25,14 @@ export default class GameCanvas extends Vue {
   }
 
   private create(): void {
+    this.gameRenderer = new GameRenderer();
+    this.gameRenderer.initialize({ el: this.$refs.canvas as HTMLElement });
   }
 
   private destory(): void {
+    if (this.gameRenderer) {
+      this.gameRenderer.destroy();
+    }
   }
 }
 </script>
