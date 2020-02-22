@@ -22,12 +22,9 @@
 <script lang="ts">
 import { Component, Watch, Prop, Vue } from "vue-property-decorator";
 import GameClient from "../../../game/client/class/GameClient";
-import {
-  RoomData,
-  ROOM_STATUS,
-  UserData,
-  CharacterData,
-} from "../../../game/union/interface/RoomData";
+import { RoomData, ROOM_STATUS } from "../../../game/union/interface/RoomData";
+import { RoomUserData } from "../../../game/union/interface/RoomUserData";
+import { RoomCharacterData } from "../../../game/union/interface/RoomCharacterData";
 import Counter from "./Counter.vue";
 import UserCard from "./UserCard.vue";
 import EmptyUserCard from "./EmptyUserCard.vue";
@@ -71,10 +68,10 @@ export default class Room extends Vue {
     }
   }
 
-  private get myUserData(): UserData {
-    let user!: UserData;
+  private get myUserData(): RoomUserData {
+    let user!: RoomUserData;
 
-    this.roomData.members.forEach((member: UserData): void => {
+    this.roomData.members.forEach((member: RoomUserData): void => {
       if (member.id === this.gameClient.socket.id) {
         user = member;
       }
@@ -126,8 +123,8 @@ export default class Room extends Vue {
     this.gameClient.socket.emit("ban", banID);
   }
 
-  private get characters(): CharacterData[] {
-    const result: CharacterData[] = [];
+  private get characters(): RoomCharacterData[] {
+    const result: RoomCharacterData[] = [];
 
     for (const key of Object.keys(Characters)) {
       result.push(Characters[key]);

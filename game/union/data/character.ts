@@ -1,7 +1,7 @@
 import Dictionary from "../interface/Dictionary"
-import { CharacterData } from "../interface/RoomData"
+import { RoomCharacterData } from "../interface/RoomCharacterData"
 
-const CharacterData: Dictionary<CharacterData> = {
+const CharacterData: Dictionary<RoomCharacterData> = {
     1: {
         code: 1,
         name: "엘리",

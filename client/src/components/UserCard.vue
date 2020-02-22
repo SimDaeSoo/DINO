@@ -19,12 +19,12 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import { UserData } from "../../../game/union/interface/RoomData";
+import { RoomUserData } from "../../../game/union/interface/RoomUserData";
 
 @Component
 export default class UserCard extends Vue {
   @Prop()
-  private user!: UserData;
+  private user!: RoomUserData;
   @Prop()
   private isOwner!: boolean;
   @Prop()

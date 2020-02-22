@@ -1,8 +1,9 @@
 import * as SocketIO from 'socket.io';
 import Updater from '../../union/class/Updater';
-import { ROOM_STATUS, USER_STATUS, RoomData, UserData } from '../../union/interface/RoomData';
+import { ROOM_STATUS, RoomData } from '../../union/interface/RoomData';
 import CharacterData from '../../union/data/character';
 import * as crypto from 'crypto';
+import { RoomUserData, USER_STATUS } from '../../union/interface/RoomUserData';
 
 export interface RoomOptions {
     id?: number;
@@ -101,7 +102,7 @@ export class Room {
     }
 
     public get roomData(): RoomData {
-        const memberData: Array<UserData> = this.members.map((member: User): UserData => {
+        const memberData: Array<RoomUserData> = this.members.map((member: User): RoomUserData => {
             return {
                 id: member.id,
                 displayName: member.displayName,

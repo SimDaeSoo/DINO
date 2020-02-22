@@ -28,8 +28,8 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import CharacterCard from "./CharacterCard.vue";
 import GameClient from "../../../game/client/class/GameClient";
-import { UserData } from "../../../game/union/interface/RoomData";
-import CharacterData from "../../../game/union/data/character";
+import { RoomUserData } from "../../../game/union/interface/RoomUserData";
+import { RoomCharacterData } from "../../../game/union/interface/RoomCharacterData";
 
 @Component({
   components: { CharacterCard },
@@ -40,9 +40,9 @@ export default class RoomFooter extends Vue {
   @Prop()
   private gameClient!: GameClient;
   @Prop()
-  private user!: UserData;
+  private user!: RoomUserData;
   @Prop()
-  private characters!: CharacterData[];
+  private characters!: RoomCharacterData[];
 
   private toggleReady(): void {
     this.gameClient.socket.emit("toggleReady");
